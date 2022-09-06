@@ -1,16 +1,16 @@
 ---
+#Run update packages so that i dont get error404 fetch error
+- name: Update packages (apt-get update cmd)
+  become: yes
+  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
 
-- name: Update packages
-  apt:
-    name: "*"
-    state: latest
-  become: true
+
 
 - name: Install nginx
-  apt:
+  package:
     name: nginx
 
 - name: Change nginx main page
   copy:
-    src: index.html
+    src: ~/ica0002/roles/nginx/files/index.html
     dest: /var/www/html/index.html

@@ -1,0 +1,21 @@
+---
+
+- name: Adds Juri
+  user: 
+    name: 
+      - juri
+
+- name: Add "Juri" keys
+  ansible.posix.authorized_key:
+    user: juri
+    key: https://github.com/hudolejev.keys
+
+- name: Adds Roman
+  user: 
+    name: 
+      - roman
+
+- name: Add "Roman" keys
+  ansible.posix.authorized_key:
+    user: roman
+    key: https://github.com/romankuchin.keys

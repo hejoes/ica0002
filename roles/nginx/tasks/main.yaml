@@ -8,3 +8,17 @@
   copy:
     src: ~/ica0002/roles/nginx/files/index.html
     dest: /var/www/html/index.html
+
+- name: Change nginx config
+  copy:
+    src: ~/ica0002/roles/nginx/files/default
+    dest: /etc/nginx/sites-enabled/
+  notify:
+    - Restart nginx
+
+- name: Start and enable nginx (always needed)
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+

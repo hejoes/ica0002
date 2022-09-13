@@ -2,4 +2,6 @@
 - hosts: web_servers
   become: yes
   roles:
+    - agama
+    - uwsgi
     - nginx

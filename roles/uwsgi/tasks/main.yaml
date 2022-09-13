@@ -1,0 +1,24 @@
+---
+
+- name: Install uwsgi
+  apt:
+    name: 
+      - uwsgi
+      - uwsgi-plugin-python3
+
+- name: Copy to
+  copy:
+    src: /home/hensuj/ica0002/roles/uwsgi/files/agama.ini 
+    dest: /etc/uwsgi/apps-enabled/
+
+- name: Start and enable uwsgi
+  service:
+    name: uwsgi
+    state: started
+    enabled: yes
+
+- name: Restart uwsgi if needed
+  notify:
+    - Restart uwsgi
+
+#Handlers are used only in the end if there are any conf changes, if not they are not used

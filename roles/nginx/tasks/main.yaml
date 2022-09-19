@@ -6,12 +6,12 @@
 
 - name: Change nginx main page
   copy:
-    src: ~/ica0002/roles/nginx/files/index.html
+    src: index.html
     dest: /var/www/html/index.html
 
 - name: Change nginx config
   copy:
-    src: ~/ica0002/roles/nginx/files/default
+    src: default
     dest: /etc/nginx/sites-enabled/
   notify:
     - Restart nginx

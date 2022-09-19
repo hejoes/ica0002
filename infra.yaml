@@ -1,7 +1,9 @@
 ---
-- hosts: web_servers
+- hosts: db_servers
   become: yes
   roles:
+    - init
+    - mysql
     - agama
     - uwsgi
     - nginx

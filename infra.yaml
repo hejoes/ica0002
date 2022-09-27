@@ -1,9 +1,7 @@
 ---
 - hosts: db_servers
   become: yes
+  gather_facts: no
   roles:
     - init
-    - mysql
-    - agama
-    - uwsgi
-    - nginx
+    - bind

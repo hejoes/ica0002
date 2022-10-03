@@ -1,7 +1,16 @@
 ---
+<<<<<<< HEAD
+=======
+
+- name: Update packages
+  apt:
+    name: "*"
+    state: latest
+  become: true
+>>>>>>> parent of 6a4145f (Fixes for lab2)
 
 - name: Install nginx
-  package:
+  apt:
     name: nginx
 
 - name: Change nginx main page

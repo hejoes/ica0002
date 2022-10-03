@@ -1,4 +1,5 @@
 - name: Install bind9
+  become: yes
   apt:
     name: bind9
 
@@ -16,7 +17,7 @@
     - Restart bind
 
 - name: Copy over named.conf.local
-  template:
+  ansible.builtin.template:
     src: named.conf.local.j2
     dest: /etc/bind/named.conf.local
   notify:

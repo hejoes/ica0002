@@ -5,3 +5,4 @@
   roles:
     - init
     - bind
+    - mysql

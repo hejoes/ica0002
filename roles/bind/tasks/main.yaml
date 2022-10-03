@@ -1,0 +1,29 @@
+- name: Install bind9
+  become: yes
+  apt:
+    name: bind9
+
+- name: Ensure bind is running
+  service:
+    name: bind9
+    state: started
+    enabled: yes
+
+- name: Copy over named.conf.options
+  template:
+    src: named.conf.options.j2
+    dest: /etc/bind/named.conf.options
+  notify:
+    - Restart bind
+
+- name: Copy over named.conf.local
+  ansible.builtin.template:
+    src: named.conf.local.j2
+    dest: /etc/bind/named.conf.local
+  notify:
+    - Restart bind
+
+- name: Copy over db.domain
+  template:
+    src: db.nexify.it.j2
+    dest: /var/lib/bind/db.nexify.it

@@ -1,0 +1,35 @@
+---
+
+- name: Install mysql server
+  apt:
+    name: mysql-server
+
+- name: Install pymysql (prolly its not needed, just in case)
+  apt:
+    name: python3-pymysql
+
+- name: Start and enable mysql
+  service:
+    name: mysql
+    state: started
+    enabled: yes
+
+- name: Change mysql config
+  copy:
+    src: override.cnf
+    dest: /etc/mysql/mysql.conf.d
+  notify:
+    - Restart mysql
+
+- name: Add mysql database
+  mysql_db:
+    name: "{{ mysql_database }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Add mysql user
+  mysql_user:
+    name: "{{ mysql_user }}"
+    password: "{{ mysql_password }}"
+    host: "%"
+    priv: "{{ mysql_database }}.*:ALL"
+    login_unix_socket: /var/run/mysqld/mysqld.sock

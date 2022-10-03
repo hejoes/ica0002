@@ -1,0 +1,8 @@
+---
+
+# In this form, APT will update cache on the first run and wont do any futher updates within the next run.
+# If you do apt and update_cache: yes it will update cache on every run and generate unnecessary changes.
+
+- name: Update cache
+  apt:
+    cache_valid_time: 86400 

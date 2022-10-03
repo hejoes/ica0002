@@ -1,0 +1,21 @@
+acl lan {
+	{% for ip in query_allow %}{{ ip }};
+	{% endfor %}
+};
+
+options {
+	directory "/var/lib/bind";
+
+	forwarders {
+			{% for ip in forwarders %}{{ ip }};
+			{% endfor %}
+	};
+
+	allow-query { 
+			lan;
+	};
+	dnssec-validation no;
+
+	listen-on-v6 { any; };
+};
+

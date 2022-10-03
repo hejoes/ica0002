@@ -12,9 +12,10 @@
     state: started
     enabled: yes
 
+#Copy module takes src from files folder, template takes from templates folder
 - name: Copy to
-  copy:
-    src: ~/ica0002/roles/uwsgi/files/agama.ini 
+  template:
+    src: agama.ini 
     dest: /etc/uwsgi/apps-enabled/
   notify:
     - Restart uwsgi

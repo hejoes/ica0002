@@ -16,7 +16,6 @@
       - python3-flask-sqlalchemy
       - python3-pymysql
 
-
 - name: Install agama.py
   get_url:
     url: https://raw.githubusercontent.com/hudolejev/agama/master/agama.py

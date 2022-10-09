@@ -1,11 +1,15 @@
 $TTL	604800
-{{domain}}.	IN	SOA	remote1.{{domain}}. henrik.{{domain}}. (
+{{domain}}.	IN	SOA	remote2.{{domain}}. mail.{{domain}}. (
 			      2		; Serial
 			 604800		; Refresh
 			  86400		; Retry
 			2419200		; Expire
 			 604800 )	; Negative Cache TTL
 ;
-{{domain}}.	IN	NS	remote1
-remote1	IN	A	192.168.42.166
-remote2	IN	A	192.168.42.170
+{% for vm in groups['all'] %}
+{{domain}}.	IN	NS	{{vm}}
+{% endfor %}
+
+
+remote1 IN A 192.168.42.106
+remote2 IN A 192.168.43.13

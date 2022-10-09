@@ -4,7 +4,7 @@ acl lan {
 };
 
 options {
-	directory "/var/lib/bind";
+	directory "/var/cache/bind";
 
 	forwarders {
 			{% for ip in forwarders %}{{ ip }};

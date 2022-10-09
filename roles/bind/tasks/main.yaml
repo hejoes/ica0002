@@ -3,6 +3,10 @@
   apt:
     name: bind9
 
+- name: Instaöö dnspython
+  apt:
+    name: python3-dnspython
+
 - name: Ensure bind is running
   service:
     name: bind9
@@ -16,7 +20,7 @@
   notify:
     - Restart bind
 
-- name: Copy over named.conf.local
+- name: Copy over named.local
   ansible.builtin.template:
     src: named.conf.local.j2
     dest: /etc/bind/named.conf.local
@@ -26,4 +30,6 @@
 - name: Copy over db.domain
   template:
     src: db.nexify.it.j2
-    dest: /var/lib/bind/db.nexify.it
+    dest: /var/cache/bind/db.nexify.it
+  notify:
+    - Restart rndc

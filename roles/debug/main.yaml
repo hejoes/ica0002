@@ -1,0 +1,4 @@
+- name: Playing with debug
+  hosts: all
+  debug:
+    var: hostvars['remote2']['ansible_facts']['default_ipv4']['address']

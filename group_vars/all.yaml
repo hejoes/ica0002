@@ -1,4 +1,4 @@
-mysql_host: "{{ hostvars['remote2']['ansible_default_ipv4']['address'] }}"
+mysql_host: "{{ hostvars['remote2']['default_ipv4']['address'] }}"
 mysql_database: agama
 mysql_user: agama
 mysql_password: !vault |
@@ -8,6 +8,8 @@ mysql_password: !vault |
   66353361353138613435653230396563313232346132343330643865373565383632343664353364
   6332656265616463610a386564343365313631376431373032386430653037353533303164383166
   3661
+
+#BIND9 variables
 
 forwarders:
   - 1.1.1.1
@@ -21,3 +23,9 @@ query_allow:
   - 172.17.0.0/16
 
 domain: nexify.it
+
+#Prometheus
+public_ip: 193.40.156.67
+
+dns_cname_records:
+  prometheus: "{{ groups['prometheus'][0] }}"

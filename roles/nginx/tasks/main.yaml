@@ -1,27 +1,17 @@
 ---
-<<<<<<< HEAD
-=======
-
-- name: Update packages
-  apt:
-    name: "*"
-    state: latest
-  become: true
->>>>>>> parent of 6a4145f (Fixes for lab2)
-
 - name: Install nginx
   apt:
     name: nginx
 
 - name: Change nginx main page
-  copy:
+  ansible.builtin.copy:
     src: index.html
     dest: /var/www/html/index.html
 
 - name: Change nginx config
   copy:
     src: default
-    dest: /etc/nginx/sites-enabled/
+    dest: /etc/nginx/sites-enabled/default
   notify:
     - Restart nginx
 
@@ -30,4 +20,3 @@
     name: nginx
     state: started
     enabled: yes
-

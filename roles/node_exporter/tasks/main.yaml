@@ -1,5 +1,5 @@
 - name: Install node exporter
-  apt:  
+  apt:
     name: prometheus-node-exporter
 
 - name: Start and enable node exporter

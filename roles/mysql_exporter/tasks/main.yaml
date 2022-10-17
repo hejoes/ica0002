@@ -1,0 +1,25 @@
+- name: Install mysqld exporter
+  apt:
+    name:
+      - prometheus-mysqld-exporter
+
+- name: MySQL user for mysql exporter
+  community.mysql.mysql_user:
+    name: "{{ mysql_exporter_user }}"
+    password: "{{ mysql_exporter_password }}"
+    host: "%"
+    priv: "*.*:PROCESS,REPLICATION CLIENT,SELECT"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Change mysql config
+  template:
+    src: my.cnf.j2
+    dest: /var/lib/prometheus/.my.cnf
+  notify:
+    - Restart mysql exporter
+
+- name: Start and enable mysql exporter
+  service:
+    name: prometheus-mysqld-exporter
+    state: started
+    enabled: yes

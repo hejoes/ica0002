@@ -4,7 +4,7 @@ acl lan {
 };
 
 options {
-	directory "/var/cache/bind";
+	directory "/var/lib/bind";
 
 	forwarders {
 			{% for ip in forwarders %}{{ ip }};
@@ -19,3 +19,7 @@ options {
 	listen-on-v6 { any; };
 };
 
+
+statistics-channels {
+    inet 127.0.0.1 port 8053 allow { 127.0.0.1; };
+};

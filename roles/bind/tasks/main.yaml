@@ -27,9 +27,16 @@
   notify:
     - Restart bind
 
+- name: Copy over resolv.conf.j2
+  ansible.builtin.template:
+    src: resolv.conf.j2
+    dest: /etc/resolv.conf
+  notify:
+    - Restart bind
+
 - name: Copy over db.domain
   template:
     src: db.nexify.it.j2
-    dest: /var/cache/bind/db.nexify.it
+    dest: /var/lib/bind/db.nexify.it
   notify:
     - Restart rndc

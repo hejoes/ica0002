@@ -15,8 +15,13 @@
   template:
     src: my.cnf.j2
     dest: /var/lib/prometheus/.my.cnf
+  no_log: yes
   notify:
     - Restart mysql exporter
+
+- name: Pause for 10 seconds
+  pause:
+    seconds: 10
 
 - name: Start and enable mysql exporter
   service:

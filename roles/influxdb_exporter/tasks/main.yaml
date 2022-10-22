@@ -1,0 +1,19 @@
+- name: Copy influx exporter binary
+  copy:
+    src: influx_stats_exporter_linux_amd64
+    dest: /usr/local/bin/influx_stats_exporter_linux_amd64
+    mode: a+x
+
+- name: Copy influx exporter service file
+  copy:
+    src: influx_exporter.service
+    dest: /etc/systemd/system/prometheus-influxdb-stats-exporter.service
+    mode: 0644
+  notify:
+    - Reload systemd
+
+- name: Start and enable influx exporter
+  service:
+    name: prometheus-influxdb-stats-exporter
+    state: started
+    enabled: yes

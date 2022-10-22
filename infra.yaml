@@ -51,4 +51,13 @@
   become: yes
   roles:
     - grafana
-  tags: graf
+  tags: grafana
+
+- name: InfluxDB
+  hosts: influx
+  become: yes
+  roles:
+    - influxdb
+    - influxdb_exporter
+    - pinger
+  tags: influx

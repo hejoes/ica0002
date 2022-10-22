@@ -1,0 +1,47 @@
+- name: add influxdb gpg key
+  apt_key:
+    url: https://repos.influxdata.com/influxdb.key
+
+- name: add influxdb rep
+  apt_repository:
+    repo: deb https://repos.influxdata.com/ubuntu focal stable
+
+- name: add influxdb gpg key
+  apt_key:
+    url: https://repos.influxdata.com/influxdb.key
+
+- name: add influxdb rep
+  apt_repository:
+    repo: deb https://repos.influxdata.com/ubuntu focal stable
+
+- name: Install influxdb
+  apt:
+    name: influxdb
+
+- name: Start and enable influxdb
+  service:
+    name: influxdb
+    state: started
+    enabled: yes
+
+- name: Copy new influx config
+  copy:
+    src: influxdb.conf
+    dest: /etc/influxdb/influxdb.conf
+  notify: Restart influxdb
+
+- name: Install telegraf
+  apt:
+    name: telegraf
+
+- name: Copy new telegraph config
+  copy:
+    src: telegraf.conf
+    dest: /etc/telegraf/telegraf.conf
+  notify: Restart telegraf
+
+- name: Start and enable telegraf
+  service:
+    name: telegraf
+    state: started
+    enabled: yes

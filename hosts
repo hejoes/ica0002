@@ -1,5 +1,5 @@
-remote1 ansible_host=193.40.156.67 ansible_port=6722 ansible_ssh_user=ubuntu
-remote2 ansible_host=193.40.156.67 ansible_port=42822 ansible_ssh_user=ubuntu
+remote1 ansible_host=193.40.156.67 ansible_port=3922 ansible_ssh_user=ubuntu
+remote2 ansible_host=193.40.156.67 ansible_port=32522 ansible_ssh_user=ubuntu
 
 [db_servers]
 remote2 
@@ -20,3 +20,6 @@ remote2
 
 [grafana]
 remote2
+
+[influx]
+remote1

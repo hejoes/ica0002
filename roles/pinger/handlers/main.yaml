@@ -1,0 +1,11 @@
+- name: Restart pinger
+  service:
+    name: pinger
+    state: restarted
+
+#Systemd doesnt have mechanism for restart, therefore reload systemd with daemon_reload
+- name: Reload systemd
+  systemd:
+    name: pinger
+    state: restarted
+    daemon_reload: yes

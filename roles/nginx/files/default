@@ -1,19 +1,6 @@
-server {
-	listen 80 default_server;
-	root /var/www/html;
-	index index.html index.htm index.nginx-debian.html;
-	server_name _;
-
-	location / {
-		try_files $uri $uri/ =404;
-	}
-
-	location /prometheus {
-		proxy_pass http://localhost:9090;
-	}
-	
-	location /grafana {
-		proxy_set_header Host $http_host;
-		proxy_pass http://localhost:3000;
-	}
-}
+server { listen 80 default_server; root /var/www/html; index index.html
+index.htm index.nginx-debian.html; server_name _; location / { try_files $uri
+$uri/ =404; } {% if inventory_hostname in groups['prometheus'] %} location
+/prometheus { proxy_pass http://localhost:9090; } {% endif %} {% if
+inventory_hostname in groups['grafana'] %} location /grafana { proxy_pass
+http://localhost:3030; } {% endif %} }

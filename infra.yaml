@@ -63,3 +63,17 @@
     - influxdb_exporter
     - pinger
   tags: influx
+
+- name: Influxdb Backup
+  hosts: influx
+  become: yes
+  roles:
+    - influxdb_backup
+  tags: influxdb_b
+
+- name: mysql backup
+  hosts: app_stack
+  become: yes
+  roles:
+    - mysql_backup
+  tags: mysql_b

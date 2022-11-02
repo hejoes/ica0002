@@ -1,8 +1,8 @@
 Coverage: This backup is meant to cover MySQL and InfluxDB. Other services (nginx, agama, grafana, bind) can be recoved with Ansible and therefore in this backup they are not covered. MYSQL at the moment is in remote2 and InfluxDB is in remote1 host.
 
-RPO: Backups are made automatically every day at 04:00-04:50(04:00-04:25 MySQL, 04:25-04:50 Influx)EET. Acceptable data loss: 1hour in 30days. Reqoveries and their verification are responsibility of an sysadmin.
+RPO: Backups are made automatically every day at 20:00-20:30(20:00-20:15 MySQL, 20:15-20:30 InfluxDB)UTC(server time). Acceptable data loss: 1hour in 30days. Reqoveries and their verification are responsibility of an sysadmin.
 
-Retention and versioning: Every sunday full backups are created, every other day only incremental. Backups are stored for 2weeks but can vary if the IT team considers necessary to store them longer.
+Retention and versioning: Every saturday full backups are created, every other day only incremental. Backups are stored for 2weeks but can vary if the IT team considers necessary to store them longer.
 
 Usability checks: We will verify backups in our testing-environment once a week - on thursdays.
 

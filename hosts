@@ -22,4 +22,5 @@ hejoes-2
 hejoes-2
 
 [influx]
-hejoes-1
+#Change to hejoes-1 if load becomes too heavy on hejoes-2
+hejoes-2

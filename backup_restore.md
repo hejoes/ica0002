@@ -19,11 +19,11 @@ Login as root user: ```sudo su```
 
 * Restore InlufDB telegraf data from previous backup:
   Login to server where InfludDB is located (hejoes-2). Change to user root and type:
-    ```systemctl stop telegraf```
+    ```service telegraf stop```
     ```influx -execute 'DROP DATABASE telegraf'```
     ```sudo -u backup duplicity --no-encryption restore rsync://hejoes@backup.nexify.it//$HOME/influxdb/ /home/backup/restore/influxdb/```
-    ```influxd restore -portable -database telegraf /home/backup/restore/influxdb/```
-    ```systemctl start telegraf``
+    ```influxd restore -portable /home/backup/restore/influxdb/```
+    ```service telegraf start``
 
 ##Checking if backup was successful:
 - Make sure that any of the previous restore commands didn't give errors

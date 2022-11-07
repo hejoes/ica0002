@@ -9,7 +9,3 @@
   template:
     src: influxdb-backup.j2
     dest: /etc/cron.d/influxdb-backup
-
-- name: Install influxd
-  apt:
-    name: influxdb

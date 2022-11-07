@@ -1,25 +1,25 @@
-remote1 ansible_host=193.40.156.67 ansible_port=8422 ansible_ssh_user=ubuntu
-remote2 ansible_host=193.40.156.67 ansible_port=38522 ansible_ssh_user=ubuntu
+hejoes-1 ansible_host=193.40.156.67 ansible_port=1422 ansible_ssh_user=ubuntu
+hejoes-2 ansible_host=193.40.156.67 ansible_port=44322 ansible_ssh_user=ubuntu
 
 [db_servers]
-remote2 
+hejoes-2 
 
 [web_servers]
-remote1
-remote2
+hejoes-1
+hejoes-2
 
 [dns_servers]
-remote2
+hejoes-2
 
 [prometheus]
-remote2
+hejoes-2
 
 [app_stack]
-remote1
-remote2
+hejoes-1
+hejoes-2
 
 [grafana]
-remote2
+hejoes-2
 
 [influx]
-remote1
+hejoes-1

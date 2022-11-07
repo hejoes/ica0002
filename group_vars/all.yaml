@@ -1,4 +1,4 @@
-mysql_host: "{{ hostvars['remote2']['default_ipv4']['address'] }}"
+mysql_host: "{{ hostvars['hejoes-2']['default_ipv4']['address'] }}"
 mysql_database: agama
 mysql_user: agama
 mysql_password: !vault |

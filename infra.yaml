@@ -1,12 +1,18 @@
 ---
-- name: Init & Backup
+- name: Init 
   hosts: all
   gather_facts: yes
   become: yes
   roles:
     - init
-    - backup
   tags: init
+
+- name: Backup 
+  hosts: all
+  become: yes
+  roles:
+    - backup
+  tags: backup
 
 - name: Node Exporter for main monitoring
   hosts: all
@@ -48,7 +54,7 @@
     - nginx_exporter
   tags: nginx
 
-- name: Grafana
+- name: Install grafana
   hosts: grafana
   become: yes
   roles:

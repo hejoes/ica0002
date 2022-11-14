@@ -7,19 +7,43 @@
     - init
   tags: init
 
+- name: Run rsyslog task on all hosts
+  hosts: all
+  become: yes
+  roles:
+  - rsyslog
+
 - name: Backup 
   hosts: all
   become: yes
+  # And manually have to change file permissions
   roles:
     - backup
   tags: backup
 
-- name: Node Exporter for main monitoring
-  hosts: all
+- name: Agama and uwsgi
+  hosts: app_stack
   become: yes
   roles:
-    - node_exporter
-  tags: node
+    - agama
+    - uwsgi
+  tags: agama
+
+- name: Nginx at App Stack
+  hosts: app_stack
+  become: yes
+  roles:
+    - nginx
+    - nginx_exporter
+  tags: nginx
+
+- name: Mysql
+  hosts: app_stack
+  become: yes
+  roles:
+    - mysql
+    - mysql_exporter
+  tags: mysql
 
 # ===== DNS Setup =====
 
@@ -31,28 +55,19 @@
     - bind_exporter
   tags: bind
 
+- name: Node Exporter for main monitoring
+  hosts: all
+  become: yes
+  roles:
+    - node_exporter
+  tags: node
+
 - hosts: prometheus
   become: yes
-  gather_facts: yes
+  hosts: prometheus
   roles:
     - prometheus
   tags: prom
-
-- name: Mysql
-  hosts: app_stack
-  become: yes
-  roles:
-    - mysql
-    - mysql_exporter
-  tags: mysql
-
-- name: Nginx at App Stack
-  hosts: app_stack
-  become: yes
-  roles:
-    - nginx
-    - nginx_exporter
-  tags: nginx
 
 - name: Install grafana
   hosts: grafana
@@ -83,3 +98,10 @@
   roles:
     - mysql_backup
   tags: mysql_b
+
+- name: Docker (atm on all hosts)
+  hosts: all
+  become: yes
+  roles:
+    - docker
+  tags: docker

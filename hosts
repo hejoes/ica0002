@@ -1,14 +1,17 @@
-hejoes-1 ansible_host=193.40.156.67 ansible_port=1422 ansible_ssh_user=ubuntu
-hejoes-2 ansible_host=193.40.156.67 ansible_port=44322 ansible_ssh_user=ubuntu
+hejoes-1 ansible_host=193.40.156.67 ansible_port=4122 ansible_ssh_user=ubuntu
+hejoes-2 ansible_host=193.40.156.67 ansible_port=43922 ansible_ssh_user=ubuntu
 
 [db_servers]
+hejoes-1
 hejoes-2 
 
 [web_servers]
 hejoes-1
 hejoes-2
+#removed hejoes-2
 
 [dns_servers]
+hejoes-1
 hejoes-2
 
 [prometheus]
@@ -19,8 +22,9 @@ hejoes-1
 hejoes-2
 
 [grafana]
+#could be changed back to hejoes-2 if gives errors
 hejoes-2
 
 [influx]
-#Change to hejoes-1 if load becomes too heavy on hejoes-2
-hejoes-2
+#Change to hejoes-1 (but then have to add dns_Servers hejoes-1 and in influx grafana conf hejoes-1) if load becomes too heavy on hejoes-2
+hejoes-1

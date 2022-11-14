@@ -10,6 +10,7 @@
     host: "%"
     priv: "*.*:PROCESS,REPLICATION CLIENT,SELECT"
     login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: yes
 
 - name: Change mysql config
   template:
@@ -23,8 +24,16 @@
   pause:
     seconds: 10
 
+- name: Copy prometheus-mysqld-exporter file
+  copy:
+    src: prometheus-mysqld-exporter
+    dest: /etc/default/prometheus-mysqld-exporter
+  notify:
+    - Restart mysql exporter
+
 - name: Start and enable mysql exporter
   service:
     name: prometheus-mysqld-exporter
     state: started
     enabled: yes
+

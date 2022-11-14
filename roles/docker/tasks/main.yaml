@@ -1,0 +1,13 @@
+- name: Install docker
+  apt:
+    name: "{{ item }}"
+    loop:
+    - docker.io
+    - python3-docker  
+#python3-docker package allows ansible to manage Docker resources
+
+- name: Start and enable docker
+  service:
+    name: docker
+    state: started
+    enabled: yes

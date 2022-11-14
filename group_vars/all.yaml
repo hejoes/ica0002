@@ -1,4 +1,4 @@
-mysql_host: "{{ hostvars['hejoes-2']['default_ipv4']['address'] }}"
+mysql_host: "{{ hostvars['hejoes-2']['ansible_default_ipv4']['address'] }}"
 mysql_database: agama
 mysql_user: agama
 mysql_password: !vault |
@@ -59,3 +59,14 @@ mysql_backup_password: !vault |
   3534
 
 github_username: hejoes
+
+#MYSQL REPLICATION (lab 11)
+node_id: "{{  (ansible_port / 100) | int }}"
+mysql_repl_user: replication
+mysql_repl_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  64313134633865626235336264343365636161393535633338373264353735306337306366306430
+  3262383961393164623638306362326165623339646538310a373161393264393962363331343238
+  66353361353138613435653230396563313232346132343330643865373565383632343664353364
+  6332656265616463610a386564343365313631376431373032386430653037353533303164383166
+  3661

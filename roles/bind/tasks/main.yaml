@@ -19,6 +19,7 @@
     dest: /etc/bind/named.conf.options
   notify:
     - Restart bind
+  no_log: true
 
 - name: Copy over named.local
   ansible.builtin.template:

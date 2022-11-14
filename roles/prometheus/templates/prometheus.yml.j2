@@ -33,4 +33,10 @@ scrape_configs:
       - targets:
         {% for machine in groups['app_stack'] %}- {{ machine }}:9104
         {% endfor %}
+
+  - job_name: 'influxdb'
+    static_configs:
+      - targets:
+        {% for machine in groups['influx'] %}- {{ machine }}:9424
+        {% endfor %}
   

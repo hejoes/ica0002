@@ -1,24 +1,24 @@
----
-
 - name: Install uwsgi
   apt:
-    name: 
-      - uwsgi
-      - uwsgi-plugin-python3
+    name: uwsgi
 
-- name: Start and enable uwsgi
+- name: Install uwsgi-plugin-python3
+  apt:
+   pkg:
+    - uwsgi
+    - uwsgi-plugin-python3
+    - python3-pymysql
+
+- name: Start and enable the uwsgi service
   service:
     name: uwsgi
     state: started
     enabled: yes
 
-#Copy module takes src from files folder, template takes from templates folder
-- name: Copy to
+- name: Change the agama config
   template:
-    src: agama.ini 
+    src: agama.ini
     dest: /etc/uwsgi/apps-enabled/
   notify:
     - Restart uwsgi
 
-
-#Handlers are used only in the end if there are any conf changes, if not they are not used

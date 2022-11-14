@@ -1,17 +1,19 @@
----
 - name: Install nginx
   apt:
     name: nginx
 
-- name: Change nginx main page
-  ansible.builtin.copy:
-    src: index.html
-    dest: /var/www/html/index.html
+#- name: Change nginx main page
+  #copy:
+    #src: index.html
+    #dest: /var/www/html/index.html
 
 - name: Change nginx config
-  copy:
-    src: default
+  template:
+    src: default.j2
     dest: /etc/nginx/sites-enabled/default
+    #validate: nginx -t -c %s
+    #Checks if no typos in default file, if typos, stops ansible
+    #Cumpolsory in dev environment
   notify:
     - Restart nginx
 

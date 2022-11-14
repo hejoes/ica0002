@@ -11,6 +11,16 @@
     shell: /bin/bash #without shell wont be able to login as backup user
     ssh_key_file: /home/backup/.ssh/id_rsa
 
+- name: Change /home/backup folder permissions
+#So that i dont get .cache folder not found
+  file:
+    path: "{{ item }}"
+    owner: backup
+    group: backup
+  loop:
+    - /home/backup
+    - /home/backup/.ssh
+
 - name: Copy known hosts file
   template:
     src: known_hosts.j2

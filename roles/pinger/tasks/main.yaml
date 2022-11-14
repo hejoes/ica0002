@@ -1,5 +1,5 @@
 - name: Add user "pinger"
-  ansible.builtin.user:
+  user:
     name: pinger
 
 - name: Install fping

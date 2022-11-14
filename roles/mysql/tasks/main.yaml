@@ -1,5 +1,3 @@
----
-
 - name: Install mysql server
   apt:
     name: mysql-server
@@ -8,28 +6,53 @@
   apt:
     name: python3-pymysql
 
+- name: Change mysql config
+  template:
+    src: override.cnf
+    dest: /etc/mysql/mysql.conf.d/override.cnf
+  notify:
+    - Restart mysql
+
 - name: Start and enable mysql
   service:
     name: mysql
     state: started
     enabled: yes
 
-- name: Change mysql config
-  copy:
-    src: override.cnf
-    dest: /etc/mysql/mysql.conf.d
-  notify:
-    - Restart mysql
-
 - name: Add mysql database
   mysql_db:
     name: "{{ mysql_database }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
+  notify:
+      - Reset MySQL source
+      - Reset MySQL replica
 
-- name: Add mysql user
+- name: Add mysql AGAMA user
   mysql_user:
     name: "{{ mysql_user }}"
     password: "{{ mysql_password }}"
     host: "%"
     priv: "{{ mysql_database }}.*:ALL"
     login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: true
+
+#MYSQL REPLICATION (lab 11)
+- name: MySQL replication user
+  mysql_user:
+    name: "{{ mysql_repl_user }}"
+    password: "{{ mysql_repl_password }}"
+    host: "%"
+    priv: 
+      '*.*': 'REPLICATION SLAVE'
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: true
+
+- name: MySQL replica read only
+  community.mysql.mysql_variables:
+    variable: read_only
+    value: "{{ 'OFF' if inventory_hostname == mysql_host else 'ON' }}"
+    mode: persist
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  notify:
+      - Reset MySQL source
+      - Reset MySQL replica

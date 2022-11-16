@@ -13,6 +13,13 @@
   roles:
   - rsyslog
 
+- name: Node Exporter for main monitoring
+  hosts: all
+  become: yes
+  roles:
+    - node_exporter
+  tags: node
+
 - name: Backup 
   hosts: all
   become: yes
@@ -29,22 +36,6 @@
     - uwsgi
   tags: agama
 
-- name: Nginx at App Stack
-  hosts: app_stack
-  become: yes
-  roles:
-    - nginx
-    - nginx_exporter
-  tags: nginx
-
-- name: Mysql
-  hosts: app_stack
-  become: yes
-  roles:
-    - mysql
-    - mysql_exporter
-  tags: mysql
-
 # ===== DNS Setup =====
 
 - name: Bind9
@@ -55,12 +46,13 @@
     - bind_exporter
   tags: bind
 
-- name: Node Exporter for main monitoring
-  hosts: all
+- name: Nginx at App Stack
+  hosts: app_stack
   become: yes
   roles:
-    - node_exporter
-  tags: node
+    - nginx
+    - nginx_exporter
+  tags: nginx
 
 - hosts: prometheus
   become: yes
@@ -68,6 +60,21 @@
   roles:
     - prometheus
   tags: prom
+
+- name: Mysql
+  hosts: app_stack
+  become: yes
+  roles:
+    - mysql
+    - mysql_exporter
+  tags: mysql
+
+- name: Docker (only needs 1hosts where grafana is)
+  hosts: grafana
+  become: yes
+  roles:
+    - docker
+  tags: docker
 
 - name: Install grafana
   hosts: grafana
@@ -98,10 +105,3 @@
   roles:
     - mysql_backup
   tags: mysql_b
-
-- name: Docker (atm on all hosts)
-  hosts: all
-  become: yes
-  roles:
-    - docker
-  tags: docker

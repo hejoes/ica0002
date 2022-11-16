@@ -1,0 +1,53 @@
+
+#If we want to change files in grafana container, we need to pre-create needed files on Docker host first and mount them into container as volume.
+- name: Grafana directory for docker
+  file:
+    name: "/opt/grafana/provisioning/{{ item }}"
+    state: directory
+    recurse: yes
+  #Recurse: yes - easily create the full directory tree if one of the parent directories is missing.
+  loop:
+    - dashboards
+    - datasources
+
+- name: Change grafana config
+  template:
+    src: grafana.ini.j2
+    dest: /opt/grafana/grafana.ini
+  no_log: true
+
+- name: Configuration dashboards
+#Kuui ei tööta, minna task3 tagasi ja muuta see dest path 2ra n2ite j2rgi
+  template:
+    src: dashboards.yaml.j2
+    dest: /opt/grafana/provisioning/dashboards/default.yaml
+
+- name: Add all grafana dashboards
+  copy:
+    src: "{{ item }}.json"
+    dest: "/opt/grafana/provisioning/dashboards/{{ item }}.json"
+  loop:
+    - main
+    - mysql
+    - syslog
+    - main2
+
+- name: Configure all datasources
+  template:
+    src: "{{ item }}.j2"
+    dest: "/opt/grafana/provisioning/datasources/{{ item }}"
+  loop:
+    - prometheus_ds.yaml
+    - influx_telegraf_ds.yaml
+    - influx_latency_ds.yaml
+    
+- name: Grafana docker container
+  docker_container:
+    name: grafana
+    image: grafana/grafana
+    published_ports: "{{ grafana_port }}:3000"
+    #grafana_port should also be added to nginx reverse proxy under grafana for us to access website
+    restart: yes
+    #restart: yes acts as handler, in our case, it always removes old container and creates new one.
+    volumes: /opt/grafana:/etc/grafana
+    #all our files that are in host directory /opt/grafana will go to /etc/grafana in docker directory, without volumes, we wont be able to feed our own files to container.

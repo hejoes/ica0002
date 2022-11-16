@@ -1,58 +1,39 @@
-- name: Install mysql server
+- name: Install MySQL
   apt:
     name: mysql-server
 
-- name: Install pymysql (prolly its not needed, just in case)
+- name: Install pymysql
   apt:
     name: python3-pymysql
 
-- name: Change mysql config
+- name: Change MySQL config
   template:
     src: override.cnf
     dest: /etc/mysql/mysql.conf.d/override.cnf
   notify:
-    - Restart mysql
+   - Restart mysql
 
-- name: Start and enable mysql
+- name: Restart mysql
+#Needed because otherwise my agama wont start up, cause agama will not read override.conf bind-address 0.0.0.0 without manual restart of mysql
+  service:
+    name: mysql
+    state: restarted
+
+- name: Start the MySQL service and enable it
   service:
     name: mysql
     state: started
     enabled: yes
 
-- name: Add mysql database
-  mysql_db:
+- name: MySQL database
+  community.mysql.mysql_db:
     name: "{{ mysql_database }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
-  notify:
-      - Reset MySQL source
-      - Reset MySQL replica
 
-- name: Add mysql AGAMA user
-  mysql_user:
+- name: MySQL user - agama
+  community.mysql.mysql_user:
     name: "{{ mysql_user }}"
     password: "{{ mysql_password }}"
     host: "%"
     priv: "{{ mysql_database }}.*:ALL"
     login_unix_socket: /var/run/mysqld/mysqld.sock
-  no_log: true
-
-#MYSQL REPLICATION (lab 11)
-- name: MySQL replication user
-  mysql_user:
-    name: "{{ mysql_repl_user }}"
-    password: "{{ mysql_repl_password }}"
-    host: "%"
-    priv: 
-      '*.*': 'REPLICATION SLAVE'
-    login_unix_socket: /var/run/mysqld/mysqld.sock
-  no_log: true
-
-- name: MySQL replica read only
-  community.mysql.mysql_variables:
-    variable: read_only
-    value: "{{ 'OFF' if inventory_hostname == mysql_host else 'ON' }}"
-    mode: persist
-    login_unix_socket: /var/run/mysqld/mysqld.sock
-  notify:
-      - Reset MySQL source
-      - Reset MySQL replica

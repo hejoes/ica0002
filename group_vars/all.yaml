@@ -1,4 +1,5 @@
 mysql_host: "{{ hostvars['hejoes-2']['ansible_default_ipv4']['address'] }}"
+#changed to hejoes1 from hejoes2
 mysql_database: agama
 mysql_user: agama
 mysql_password: !vault |
@@ -70,3 +71,6 @@ mysql_repl_password: !vault |
   66353361353138613435653230396563313232346132343330643865373565383632343664353364
   6332656265616463610a386564343365313631376431373032386430653037353533303164383166
   3661
+
+#for docker container
+grafana_port: 3001

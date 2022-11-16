@@ -20,27 +20,12 @@
 
 #CONFIGURE GRAFANA DASHBOARDS AND DATASOURCES
 
-- name: Pause for 10 seconds
-  pause:
-    seconds: 10
-
-- name: Configure Prometheus as default datasource
-  template:
-    src: prometheus_ds.yaml.j2
-    dest: /etc/grafana/provisioning/datasources/prometheus.yaml
-  notify:
-    - Restart grafana
-
 - name: Configuration dashboards
   template:
     src: dashboards.yaml.j2
     dest: /etc/grafana/provisioning/dashboards/dashboards.yaml
   notify:
     - Restart grafana
-
-- name: Pause for 10 seconds
-  pause:
-    seconds: 10
 
 - name: Add grafana dashboards (newer version from slides)
   copy:
@@ -49,9 +34,17 @@
   loop:
     - main
     - mysql
-    - main_tengz
+    - main2
+    - syslog
 
-#LOGGING INFLUX RELATED
+#Datasources
+
+- name: Configure Prometheus as default datasource
+  template:
+    src: prometheus_ds.yaml.j2
+    dest: /etc/grafana/provisioning/datasources/prometheus.yaml
+  notify:
+    - Restart grafana
 
 - name: Configure Influx-Latency datasource
   template:

@@ -1,0 +1,3 @@
+#Maybe not needed when restart: yes is specified in container, just in case added this handler file
+- name: restart grafana
+  command: docker restart grafana

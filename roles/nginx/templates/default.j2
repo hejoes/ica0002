@@ -7,10 +7,12 @@ server {
 
 	error_page 404 /;
 
+	{% if inventory_hostname in groups['agama'] %}
 	location / {
 		uwsgi_pass localhost:5000;
 		include uwsgi_params;
 	}
+	{% endif %}
 	
 	location /nginx-metrics {
 		proxy_pass http://localhost:9113/metrics;

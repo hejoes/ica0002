@@ -2,10 +2,10 @@
   apt:
     name: nginx
 
-#- name: Change nginx main page
-  #copy:
-    #src: index.html
-    #dest: /var/www/html/index.html
+- name: Change nginx main page
+  copy:
+    src: index.html
+    dest: /var/www/html/index.html
 
 - name: Change nginx config
   template:

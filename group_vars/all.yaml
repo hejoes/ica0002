@@ -72,5 +72,9 @@ mysql_repl_password: !vault |
   6332656265616463610a386564343365313631376431373032386430653037353533303164383166
   3661
 
+mysql_backup_host: "{{ groups['db_servers'] | reject('eq', mysql_host) | first | default(mysql_host) }}"
+
 #for docker container
-grafana_port: 3001
+grafana_port: 3000
+
+agama_port: 8001

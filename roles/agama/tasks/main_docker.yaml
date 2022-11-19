@@ -1,0 +1,28 @@
+- name: Add Agama directory
+  file:
+    path: /opt/agama
+    state: directory
+
+- name: Get agama
+#code to containerize agama (we will use Dockerfile for that, its good example)
+#Dockerfile dsnt use uwsgi so we need to add these parameters to Dockerfile
+  get_url:
+    url: https://raw.githubusercontent.com/hudolejev/agama/master/Dockerfile
+    dest: /opt/agama/Dockerfile
+
+- name: Build docker image from Dockerfile
+  community.docker.docker_image:
+    name: agama
+    source: build
+    build:
+      path: /opt/agama
+
+- name: Start the container from built image
+  docker_container:
+    name: agama-1
+    image: agama
+    env:
+      AGAMA_DATABASE_URI: mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}/{{ mysql_database }}
+    published_ports: "{{ agama_port }}:8000"
+    restart_policy: unless-stopped
+  no_log: true

@@ -28,8 +28,16 @@
     - backup
   tags: backup
 
+- name: Docker (only needs 1hosts where grafana is)
+  hosts: grafana
+  become: yes
+  roles:
+    - docker
+  tags: docker
+
 - name: Agama and uwsgi
-  hosts: app_stack
+#lets put agama to only hejoes-1, where nginx is so to not get repeated ids in mysql replication
+  hosts: agama
   become: yes
   roles:
     - agama
@@ -47,7 +55,7 @@
   tags: bind
 
 - name: Nginx at App Stack
-  hosts: app_stack
+  hosts: web_server
   become: yes
   roles:
     - nginx
@@ -62,19 +70,12 @@
   tags: prom
 
 - name: Mysql
-  hosts: app_stack
+  hosts: db_servers
   become: yes
   roles:
     - mysql
     - mysql_exporter
   tags: mysql
-
-- name: Docker (only needs 1hosts where grafana is)
-  hosts: grafana
-  become: yes
-  roles:
-    - docker
-  tags: docker
 
 - name: Install grafana
   hosts: grafana

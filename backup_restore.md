@@ -18,7 +18,7 @@ Login as root user: ```sudo su```
    3. ```mysql agama < /home/backup/restore/mysql/agama.sql```
 
 * Restore InlufDB telegraf data from previous backup:
-  Login to server where InfludDB is located (hejoes-1). Change to user root and type:
+  Login to server where InfludDB is located (hejoes-2) if not hejoes-2, check hosts influx host. Change to user root and type:
    1. ```service telegraf stop```
    2. ```influx -execute 'DROP DATABASE telegraf'```
    3. ```sudo -u backup duplicity --no-encryption restore rsync://hejoes@backup.nexify.it/$HOME/influxdb/ /home/backup/restore/influxdb/```

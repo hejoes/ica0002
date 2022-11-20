@@ -12,6 +12,7 @@
   become: yes
   roles:
   - rsyslog
+  tags: rsyslog
 
 - name: Node Exporter for main monitoring
   hosts: all

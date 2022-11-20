@@ -6,14 +6,6 @@
   apt_repository:
     repo: deb https://repos.influxdata.com/ubuntu focal stable
 
-- name: add influxdb gpg key
-  apt_key:
-    url: https://repos.influxdata.com/influxdb.key
-
-- name: add influxdb rep
-  apt_repository:
-    repo: deb https://repos.influxdata.com/ubuntu focal stable
-
 - name: Install influxdb
   apt:
     name: influxdb

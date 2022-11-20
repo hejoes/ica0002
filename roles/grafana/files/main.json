@@ -110,7 +110,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(nginx_http_requests_total[3m])",
+          "expr": "rate(nginx_http_requests_total[1m])",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -173,13 +173,15 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.1",
+      "pluginVersion": "9.2.5",
       "targets": [
         {
           "datasource": {
@@ -250,13 +252,15 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.1",
+      "pluginVersion": "9.2.5",
       "targets": [
         {
           "datasource": {
@@ -327,13 +331,15 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.1",
+      "pluginVersion": "9.2.5",
       "targets": [
         {
           "datasource": {
@@ -433,7 +439,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(influxdb_exporter_stats_query_success[3m])",
+          "expr": "rate(influxdb_exporter_stats_query_success[1m])",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
@@ -525,7 +531,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(influxdb_write_write_ok[3m])",
+          "expr": "rate(influxdb_write_write_ok[1m])",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
@@ -617,7 +623,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(bind_resolver_queries_total[3m])",
+          "expr": "rate(bind_resolver_queries_total[1m])",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
@@ -709,7 +715,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(go_memstats_alloc_bytes_total[10m])",
+          "expr": "rate(go_memstats_alloc_bytes_total[1m])",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
@@ -801,7 +807,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(mysql_global_status_commands_total[3m])",
+          "expr": "rate(mysql_global_status_commands_total[1m])",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
@@ -923,7 +929,7 @@
     "list": []
   },
   "time": {
-    "from": "2022-10-22T08:39:35.547Z",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},

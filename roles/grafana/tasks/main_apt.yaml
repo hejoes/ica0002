@@ -1,0 +1,67 @@
+- name: add grafana gpg key
+  apt_key:
+    url: https://packages.grafana.com/gpg.key
+
+- name: add grafana rep
+  ansible.builtin.apt_repository:
+    repo: deb https://packages.grafana.com/oss/deb stable main
+
+- name: Install grafana
+  apt:
+    name: grafana
+
+- name: Change grafana config
+  template:
+    src: grafana.ini.j2
+    dest: /etc/grafana/grafana.ini
+  notify:
+    - Restart grafana
+  no_log: true
+
+#CONFIGURE GRAFANA DASHBOARDS AND DATASOURCES
+
+- name: Configuration dashboards
+  template:
+    src: dashboards.yaml.j2
+    dest: /etc/grafana/provisioning/dashboards/dashboards.yaml
+  notify:
+    - Restart grafana
+
+- name: Add grafana dashboards (newer version from slides)
+  copy:
+    src: "{{ item }}.json"
+    dest: "/etc/grafana/provisioning/dashboards/{{ item }}.json"
+  loop:
+    - main
+    - mysql
+    - main2
+    - syslog
+
+#Datasources
+
+- name: Configure Prometheus as default datasource
+  template:
+    src: prometheus_ds.yaml.j2
+    dest: /etc/grafana/provisioning/datasources/prometheus.yaml
+  notify:
+    - Restart grafana
+
+- name: Configure Influx-Latency datasource
+  template:
+    src: influx_latency_ds.yaml.j2
+    dest: /etc/grafana/provisioning/datasources/influx_latency_ds.yaml
+  notify:
+    - Restart grafana
+
+- name: Configure Influx-Telegraf datasource
+  template:
+    src: influx_telegraf_ds.yaml.j2
+    dest: /etc/grafana/provisioning/datasources/influx_telegraf_ds.yaml
+  notify:
+    - Restart grafana
+
+- name: Start and enable grafana
+  service:
+    name: grafana-server
+    state: started
+    enabled: yes

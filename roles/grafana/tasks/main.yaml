@@ -1,67 +1,53 @@
-- name: add grafana gpg key
-  apt_key:
-    url: https://packages.grafana.com/gpg.key
-
-- name: add grafana rep
-  ansible.builtin.apt_repository:
-    repo: deb https://packages.grafana.com/oss/deb stable main
-
-- name: Install grafana
-  apt:
-    name: grafana
+#If we want to change files in grafana container, we need to pre-create needed files on Docker host first and mount them into container as volume.
+- name: Grafana directory for docker
+  file:
+    name: "/opt/grafana/provisioning/{{ item }}"
+    state: directory
+    recurse: yes
+  #Recurse: yes - easily create the full directory tree if one of the parent directories is missing.
+  loop:
+    - dashboards
+    - datasources
 
 - name: Change grafana config
   template:
     src: grafana.ini.j2
-    dest: /etc/grafana/grafana.ini
-  notify:
-    - Restart grafana
+    dest: /opt/grafana/grafana.ini
+    #put this on our host system /opt/grafana but container sees it as /etc/grafana
   no_log: true
 
-#CONFIGURE GRAFANA DASHBOARDS AND DATASOURCES
-
 - name: Configuration dashboards
+  #Kuui ei tööta, minna task3 tagasi ja muuta see dest path 2ra n2ite j2rgi
   template:
     src: dashboards.yaml.j2
-    dest: /etc/grafana/provisioning/dashboards/dashboards.yaml
-  notify:
-    - Restart grafana
+    dest: /opt/grafana/provisioning/dashboards/default.yaml
 
-- name: Add grafana dashboards (newer version from slides)
+- name: Add all grafana dashboards
   copy:
     src: "{{ item }}.json"
-    dest: "/etc/grafana/provisioning/dashboards/{{ item }}.json"
+    dest: "/opt/grafana/provisioning/dashboards/{{ item }}.json"
   loop:
     - main
     - mysql
-    - main2
     - syslog
+    - main2
 
-#Datasources
-
-- name: Configure Prometheus as default datasource
+- name: Configure all datasources
   template:
-    src: prometheus_ds.yaml.j2
-    dest: /etc/grafana/provisioning/datasources/prometheus.yaml
-  notify:
-    - Restart grafana
+    src: "{{ item }}.j2"
+    dest: "/opt/grafana/provisioning/datasources/{{ item }}"
+  loop:
+    - prometheus_ds.yaml
+    - influx_telegraf_ds.yaml
+    - influx_latency_ds.yaml
 
-- name: Configure Influx-Latency datasource
-  template:
-    src: influx_latency_ds.yaml.j2
-    dest: /etc/grafana/provisioning/datasources/influx_latency_ds.yaml
-  notify:
-    - Restart grafana
-
-- name: Configure Influx-Telegraf datasource
-  template:
-    src: influx_telegraf_ds.yaml.j2
-    dest: /etc/grafana/provisioning/datasources/influx_telegraf_ds.yaml
-  notify:
-    - Restart grafana
-
-- name: Start and enable grafana
-  service:
-    name: grafana-server
-    state: started
-    enabled: yes
+- name: Grafana docker container
+  docker_container:
+    name: grafana
+    image: grafana/grafana
+    published_ports: "{{ grafana_port }}:3000"
+    #grafana_port should also be added to nginx reverse proxy under grafana for us to access website
+    restart: yes
+    #restart: yes acts as handler, in our case, it always removes old container and creates new one.
+    volumes: /opt/grafana:/etc/grafana
+    #all our files that are in host directory /opt/grafana will go to /etc/grafana in docker directory, without volumes, we wont be able to feed our own files to container.

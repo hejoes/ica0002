@@ -1,0 +1,21 @@
+#Tryied adding docker container ip to bind named.conf.options.j2 querry allow list, didnt work so i added this task to fix it 
+
+- name: Copy iptables config
+  copy:
+    src: iptables.mangle
+    dest: /var/local/iptables.mangle
+
+- name: Restore iptables
+  community.general.iptables_state:
+    path: /var/local/iptables.mangle
+    state: restored
+    table: mangle
+
+- name: Install iptables persistent
+  apt:
+    name: iptables-persistent
+
+- name: Copy iptables config for persistance
+  copy:
+    src: iptables.mangle
+    dest: /etc/iptables/rules.v4

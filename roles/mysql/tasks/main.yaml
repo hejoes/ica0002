@@ -34,7 +34,7 @@
     - Reset MySQL replica
 
 - name: MySQL user - agama
-  community.mysql.mysql_user:
+  mysql_user:
     name: "{{ mysql_user }}"
     password: "{{ mysql_password }}"
     host: "%"

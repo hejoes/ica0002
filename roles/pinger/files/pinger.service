@@ -2,7 +2,7 @@
 After=network-online.target
 
 [Service]
-ExecStart=/root/pinger
+ExecStart=/usr/local/bin/pinger
 
 [Install]
 WantedBy=multi-user.target

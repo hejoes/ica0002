@@ -29,8 +29,9 @@
     - backup
   tags: backup
 
-- name: Docker (only needs 1hosts where grafana is)
-  hosts: grafana
+- name: Docker (where agama and grafana is)
+#hejoes-1 agama and hejoes-2 grafana
+  hosts: all
   become: yes
   roles:
     - docker

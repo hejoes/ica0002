@@ -13,16 +13,19 @@ mysql_password: !vault |
 #BIND9 variables
 
 forwarders:
-  - 1.1.1.1
   - 8.8.8.8
+  - 1.1.1.1
+  - 9.9.9.9
 
 query_allow:
   - 192.168.42.0/24
   - 192.168.43.0/24
   - 127.0.0.0/8
+  #docker ip:
+  - 172.17.0.0/16
 
 domain: nexify.it
-dns_nameserver: 127.0.0.1
+dns_nameserver: "{{ hostvars['hejoes-2']['ansible_default_ipv4']['address'] }}"
 
 #Prometheus
 public_ip: 193.40.156.67
@@ -75,6 +78,6 @@ mysql_repl_password: !vault |
 mysql_backup_host: "{{ groups['db_servers'] | reject('eq', mysql_host) | first | default(mysql_host) }}"
 
 #for docker container
-grafana_port: 3000
+grafana_port: 3001
 
 agama_port: 8001

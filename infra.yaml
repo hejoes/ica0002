@@ -1,5 +1,5 @@
 ---
-- name: Init 
+- name: Init
   hosts: all
   gather_facts: yes
   become: yes
@@ -11,7 +11,7 @@
   hosts: all
   become: yes
   roles:
-  - rsyslog
+    - rsyslog
   tags: rsyslog
 
 - name: Node Exporter for main monitoring
@@ -21,32 +21,21 @@
     - node_exporter
   tags: node
 
-- name: Backup 
+- name: Backup
   hosts: all
   become: yes
-  # And manually have to change file permissions
   roles:
     - backup
   tags: backup
 
-- name: Docker (where agama and grafana is)
-#hejoes-1 agama and hejoes-2 grafana
-  hosts: all
+- name: Docker for hejoes-1 and hejoes-2
+  hosts: app_stack
   become: yes
   roles:
     - docker
   tags: docker
 
-- name: Agama and uwsgi
-#lets put agama to only hejoes-1, where nginx is so to not get repeated ids in mysql replication
-  hosts: agama
-  become: yes
-  roles:
-    - agama
-    - uwsgi
-  tags: agama
-
-# ===== DNS Setup =====
+# ===== DNS =====
 
 - name: Bind9
   hosts: dns_servers
@@ -56,28 +45,53 @@
     - bind_exporter
   tags: bind
 
+# ===== App Stack (hejoes-1 and hejoes-2) =====
 - name: Nginx at App Stack
-  hosts: web_server
+  hosts: app_stack
   become: yes
   roles:
     - nginx
     - nginx_exporter
   tags: nginx
 
-- hosts: prometheus
+- name: Agama
+  hosts: app_stack
+  become: yes
+  roles:
+    - agama
+  tags: agama
+
+- name: MySQL
+  hosts: app_stack
+  become: yes
+  roles:
+    - mysql
+    - mysql_exporter
+    - mysql_backup
+  tags: mysql
+
+- name: Keepallived
+  hosts: app_stack
+  become: yes
+  roles:
+    - keepalived
+  tags: keepalived
+
+- name: Haproxy
+  hosts: app_stack
+  become: yes
+  roles:
+    - haproxy
+  tags: haproxy
+
+# ===== Other Parts =====
+
+- name: prometheus
   become: yes
   hosts: prometheus
   roles:
     - prometheus
   tags: prom
-
-- name: Mysql
-  hosts: db_servers
-  become: yes
-  roles:
-    - mysql
-    - mysql_exporter
-  tags: mysql
 
 - name: Install grafana
   hosts: grafana
@@ -101,10 +115,3 @@
   roles:
     - influxdb_backup
   tags: influxdb_b
-
-- name: mysql backup
-  hosts: app_stack
-  become: yes
-  roles:
-    - mysql_backup
-  tags: mysql_b

@@ -1,0 +1,33 @@
+global_defs {
+    enable_script_security
+    script_user keepalived_script
+}
+
+vrrp_script check_haproxy {                 
+    script "/home/keepalived_script/vrrp_script" 
+    weight 20                              
+    interval 1               
+}
+vrrp_instance nexify {             
+    interface ens3
+    virtual_router_id 1
+    {% if inventory_hostname == 'hejoes-1' %}
+    priority 100
+    {% else %}
+    priority 99
+    {% endif %}
+    advert_int 1                            
+    virtual_ipaddress {                     
+        192.168.100.{{ hostvars['hejoes-1']['ansible_default_ipv4']['address'].split('.')[-1] }}/24                     
+    }
+    unicast_peer {                          
+        {% for hejoes in groups['app_stack'] %}                    
+        {% if inventory_hostname != hejoes %}
+        {{ hostvars[hejoes]['ansible_default_ipv4']['address'] }}
+        {% endif %}
+        {% endfor %}
+    }
+    track_script {
+        check_haproxy
+    }
+}

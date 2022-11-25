@@ -1,0 +1,31 @@
+- name: Install keepalived
+  apt:
+    name: keepalived
+
+- name: Add user "keepalived_script"
+  user:
+    name: keepalived_script
+    home: /home/keepalived_script
+    shell: /bin/bash
+
+- name: Change keepalived config
+  template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+  notify:
+    - restart keepalived
+
+- name: Copy keepalived script file
+  copy:
+    src: vrrp_script.sh
+    dest: /home/keepalived_script/vrrp_script
+    owner: keepalived_script
+    mode: 0700
+  notify:
+    - restart keepalived
+
+- name: Start and enable keepalived
+  service:
+    name: keepalived
+    state: started
+    enabled: yes

@@ -24,10 +24,20 @@
 
 - name: Start the container from built image
   docker_container:
-    name: agama-1
+    name: agama1
     image: agama
     env:
       AGAMA_DATABASE_URI: mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}/{{ mysql_database }}
-    published_ports: "{{ agama_port }}:8000"
-    restart_policy: unless-stopped
+    published_ports: "{{ agama_port1 }}:8000"
+    restart: yes
+  no_log: true
+
+- name: Start 2nd agama container(for haproxy)
+  docker_container:
+    name: agama2
+    image: agama
+    env:
+      AGAMA_DATABASE_URI: mysql+pymysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}/{{ mysql_database }}
+    published_ports: "{{ agama_port2 }}:8000"
+    restart: yes
   no_log: true

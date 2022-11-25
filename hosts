@@ -1,27 +1,16 @@
-hejoes-1 ansible_host=193.40.156.67 ansible_port=12522 ansible_ssh_user=ubuntu
-hejoes-2 ansible_host=193.40.156.67 ansible_port=8422 ansible_ssh_user=ubuntu
-
-[db_servers]
-hejoes-1
-hejoes-2 
+hejoes-1 ansible_host=193.40.156.67 ansible_port=39022 ansible_ssh_user=ubuntu
+hejoes-2 ansible_host=193.40.156.67 ansible_port=29322 ansible_ssh_user=ubuntu
 
 [agama]
+#only used for nginx atm, agama is working on both machines
 hejoes-1
-
-[web_server]
-hejoes-1
-hejoes-2
-#removed hejoes-2, not needed
 
 [dns_servers]
+hejoes-1
 hejoes-2
 #removed hejoes-1
 
 [prometheus]
-hejoes-2
-
-[app_stack]
-hejoes-1
 hejoes-2
 
 [grafana]
@@ -30,3 +19,8 @@ hejoes-2
 [influx]
 #Change to hejoes-1 (but then have to add dns_Servers hejoes-1 and in influx grafana conf hejoes-1) if load becomes too heavy on hejoes-2
 hejoes-2
+
+[app_stack]
+hejoes-1
+hejoes-2
+

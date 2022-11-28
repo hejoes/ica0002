@@ -20,7 +20,7 @@
     src: vrrp_script.sh
     dest: /home/keepalived_script/vrrp_script
     owner: keepalived_script
-    mode: 0700
+    mode: 0755
   notify:
     - restart keepalived
 

@@ -7,13 +7,6 @@ server {
 
 	error_page 404 /;
 
-	{% if inventory_hostname in groups['app_stack'] %}
-	location / {
-		proxy_pass http://localhost:{{ agama_port1 }};
-		proxy_set_header Host $http_host;
-	}
-	{% endif %}
-
 	{% if inventory_hostname in groups['prometheus'] %}
 	location /prometheus {
 		proxy_pass http://localhost:9090;
@@ -27,4 +20,18 @@ server {
 	}
 	{% endif %}
 
+	{% if inventory_hostname in groups['app_stack'] %}
+	location / {
+		proxy_pass http://localhost:{{ agama_port1 }};
+		proxy_set_header Host $http_host;
+	}
+
+	location /haproxy-metrics {
+		proxy_pass http://localhost:9101/metrics;
+	}
+
+	location /keepalived-metrics {
+		proxy_pass http://localhost:9165/metrics;
+	}
+	{% endif %}
 }

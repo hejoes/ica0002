@@ -5,7 +5,8 @@
   become: yes
   roles:
     - init
-  tags: init
+  tags: always
+  #tags:always always runs that role
 
 - name: Run rsyslog task on all hosts
   hosts: all
@@ -46,6 +47,15 @@
   tags: bind
 
 # ===== App Stack (hejoes-1 and hejoes-2) =====
+- name: MySQL
+  hosts: app_stack
+  become: yes
+  roles:
+    - mysql
+    - mysql_exporter
+    - mysql_backup
+  tags: mysql
+
 - name: Nginx at App Stack
   hosts: app_stack
   become: yes
@@ -61,20 +71,12 @@
     - agama
   tags: agama
 
-- name: MySQL
-  hosts: app_stack
-  become: yes
-  roles:
-    - mysql
-    - mysql_exporter
-    - mysql_backup
-  tags: mysql
-
 - name: Keepallived
   hosts: app_stack
   become: yes
   roles:
     - keepalived
+    - keepalived_exporter
   tags: keepalived
 
 - name: Haproxy
@@ -82,6 +84,7 @@
   become: yes
   roles:
     - haproxy
+    - haproxy_exporter
   tags: haproxy
 
 # ===== Other Parts =====
@@ -91,7 +94,7 @@
   hosts: prometheus
   roles:
     - prometheus
-  tags: prom
+  tags: prometheus
 
 - name: Install grafana
   hosts: grafana

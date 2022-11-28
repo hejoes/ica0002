@@ -1,0 +1,16 @@
+- name: Install haproxy exporter
+  apt:
+    name: prometheus-haproxy-exporter
+
+- name: Change haproxy exporter config
+  template:
+    src: prometheus-haproxy-exporter.j2
+    dest: /etc/default/prometheus-haproxy-exporter
+  notify:
+    - Restart haproxy exporter
+
+- name: Start and enable haproxy exporter
+  service:
+    name: prometheus-haproxy-exporter
+    state: started
+    enabled: yes

@@ -25,11 +25,11 @@ defaults
 	errorfile 504 /etc/haproxy/errors/504.http
 
 listen nexify
-    bind *:88
+    bind :88
     stats enable
     stats uri /stats
-		server agama1-1 hejoes-1:{{ agama_port1 }} check
-    server agama1-2 hejoes-1:{{ agama_port2 }} check
+		server agama1 hejoes-1:{{ agama_port1 }} check
+    server agama2 hejoes-1:{{ agama_port2 }} check
 		
-		server agama2-1 hejoes-2:{{ agama_port1 }} check
-    server agama2-2 hejoes-2:{{ agama_port2 }} check
+		server agama3 hejoes-2:{{ agama_port1 }} check
+    server agama4 hejoes-2:{{ agama_port2 }} check

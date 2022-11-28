@@ -1,9 +1,10 @@
-hejoes-1 ansible_host=193.40.156.67 ansible_port=39022 ansible_ssh_user=ubuntu
-hejoes-2 ansible_host=193.40.156.67 ansible_port=29322 ansible_ssh_user=ubuntu
+hejoes-1 ansible_host=193.40.156.67 ansible_port=9322 ansible_ssh_user=ubuntu
+hejoes-2 ansible_host=193.40.156.67 ansible_port=18522 ansible_ssh_user=ubuntu
 
 [agama]
 #only used for nginx atm, agama is working on both machines
 hejoes-1
+hejoes-2
 
 [dns_servers]
 hejoes-1

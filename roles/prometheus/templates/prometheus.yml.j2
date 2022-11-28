@@ -39,4 +39,16 @@ scrape_configs:
       - targets:
         {% for machine in groups['influx'] %}- {{ machine }}:9424
         {% endfor %}
+        
+  - job_name: 'haproxy'
+    static_configs:
+      - targets:
+        {% for machine in groups['app_stack'] %}- {{ machine }}:9101
+        {% endfor %}
+
+  - job_name: 'keepalived'
+    static_configs:
+      - targets:
+        {% for machine in groups['app_stack'] %}- {{ machine }}:9165
+        {% endfor %}
   

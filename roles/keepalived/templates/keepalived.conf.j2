@@ -14,7 +14,7 @@ vrrp_instance nexify {
     {% if inventory_hostname == 'hejoes-1' %}
     priority 100
     {% else %}
-    priority 99
+    priority 5
     {% endif %}
     advert_int 1                            
     virtual_ipaddress {                     

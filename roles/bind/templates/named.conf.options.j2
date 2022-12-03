@@ -4,7 +4,7 @@ acl lan {
 };
 
 options {
-	directory "/var/lib/bind";
+	directory "/var/cache/bind";
 
 	forwarders {
 			{% for ip in forwarders %}{{ ip }};
@@ -18,7 +18,16 @@ options {
 
 };
 
-
 statistics-channels {
     inet 127.0.0.1 port 8053 allow { 127.0.0.1; };
+};
+
+key "transfer.key" {
+	algorithm hmac-sha256;
+	secret "{{ transfer_key }}";
+};
+
+key "nsupdate.key" {
+	algorithm hmac-sha256;
+	secret "{{ nsupdate_key }}";
 };

@@ -7,12 +7,6 @@
   apt:
     name: python3-dnspython
 
-- name: Ensure bind is running
-  service:
-    name: bind9
-    state: started
-    enabled: yes
-
 - name: Copy over named.conf.options
   template:
     src: named.conf.options.j2
@@ -38,6 +32,60 @@
 - name: Copy over db.domain
   template:
     src: db.nexify.it.j2
-    dest: /var/lib/bind/db.nexify.it
+    dest: /var/cache/bind/db.nexify.it
+    force: no
+    #FORCE NO TEGEMATA SIIN; PEAN HILJEM LISAMA!!
   notify:
     - Restart rndc
+  when: inventory_hostname in groups['dns_masters']
+
+- name: Copy over db.domain reverse
+  template:
+    src: db.nexify.it_reverse.j2
+    dest: /var/cache/bind/db.nexify.it_reverse
+    force: no
+    #file will only be transfered if the destination does not exist
+  notify:
+    - Restart rndc
+  when: inventory_hostname in groups['dns_masters']
+
+- name: Execute handlers
+  meta: flush_handlers
+
+- name: Ensure bind is running
+  service:
+    name: bind9
+    state: started
+    enabled: yes
+
+- name: Add backup server A record
+  nsupdate:
+    key_name: "nsupdate.key"
+    key_secret: "{{ nsupdate_key }}"
+    key_algorithm: "hmac-sha256"
+    server: "localhost"
+    record: "backup"
+    zone: "{{ domain }}"
+    type: "A"
+    value: "{{ backup_server_ip }}"
+  notify:
+    - Restart bind
+  no_log: true
+  loop: "{{ dns_a_records | dict2items }}"
+  when: inventory_hostname in groups['dns_masters']
+
+- name: Add additional CNAME records
+  nsupdate:
+    key_name: "nsupdate.key"
+    key_secret: "{{ nsupdate_key }}"
+    key_algorithm: "hmac-sha256"
+    server: "localhost"
+    record: "{{ item.key }}"
+    zone: "{{ domain }}"
+    type: "CNAME"
+    value: "{{ item.value }}"
+  notify:
+    - Restart bind
+  loop: "{{ dns_cname_records | dict2items }}"
+  no_log: true
+  when: inventory_hostname in groups['dns_masters']

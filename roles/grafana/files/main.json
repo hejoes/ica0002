@@ -29,9 +29,10 @@
   "panels": [
     {
       "datasource": {
-        "type": "influxdb",
-        "uid": "P6B8560EE0ED75EBD"
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -85,12 +86,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 9,
+        "h": 7,
+        "w": 4,
         "x": 0,
         "y": 0
       },
-      "id": 17,
+      "id": 29,
       "options": {
         "legend": {
           "calcs": [],
@@ -103,47 +104,119 @@
           "sort": "none"
         }
       },
+      "pluginVersion": "8.2.1",
       "targets": [
         {
           "datasource": {
-            "type": "influxdb",
-            "uid": "P6B8560EE0ED75EBD"
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
           },
-          "groupBy": [
-            {
-              "params": ["$__interval"],
-              "type": "time"
-            },
-            {
-              "params": ["dst"],
-              "type": "tag"
-            },
-            {
-              "params": ["null"],
-              "type": "fill"
-            }
-          ],
-          "measurement": "rtt",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": ["rtt"],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": []
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "rate(bind_resolver_queries_total{instance=\"hejoes-1:9119\", type=\"A\"}[1m])",
+          "interval": "",
+          "legendFormat": "",
+          "range": true,
+          "refId": "A"
         }
       ],
-      "title": "Pinger",
+      "title": "Bind9 Master",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 4,
+        "y": 0
+      },
+      "id": 30,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "rate(bind_resolver_queries_total{instance=\"hejoes-2:9119\", type=\"A\"}[1m])",
+          "interval": "",
+          "legendFormat": "",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Bind9 Slave",
       "type": "timeseries"
     },
     {
@@ -206,7 +279,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "9.3.1",
       "targets": [
         {
           "datasource": {
@@ -283,7 +356,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "9.3.1",
       "targets": [
         {
           "datasource": {
@@ -360,7 +433,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "9.3.1",
       "targets": [
         {
           "datasource": {
@@ -528,7 +601,7 @@
         "text": {},
         "textMode": "value_and_name"
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "9.3.1",
       "targets": [
         {
           "datasource": {
@@ -606,7 +679,7 @@
         "text": {},
         "textMode": "value_and_name"
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "9.3.1",
       "targets": [
         {
           "datasource": {
@@ -683,10 +756,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 6,
         "w": 9,
         "x": 0,
-        "y": 8
+        "y": 7
       },
       "id": 12,
       "options": {
@@ -757,7 +830,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 10,
+        "h": 7,
         "w": 9,
         "x": 9,
         "y": 10
@@ -776,7 +849,7 @@
         "text": {},
         "textMode": "value_and_name"
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "9.3.1",
       "targets": [
         {
           "datasource": {
@@ -863,7 +936,7 @@
         "text": {},
         "textMode": "value_and_name"
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "9.3.1",
       "targets": [
         {
           "datasource": {
@@ -943,7 +1016,7 @@
         "h": 8,
         "w": 9,
         "x": 0,
-        "y": 16
+        "y": 13
       },
       "id": 14,
       "options": {
@@ -1032,10 +1105,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 7,
+        "w": 7,
         "x": 9,
-        "y": 20
+        "y": 17
       },
       "id": 7,
       "options": {
@@ -1111,7 +1184,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1123,12 +1197,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 9,
-        "x": 0,
-        "y": 24
+        "h": 7,
+        "w": 8,
+        "x": 16,
+        "y": 17
       },
-      "id": 13,
+      "id": 2,
       "options": {
         "legend": {
           "calcs": [],
@@ -1145,16 +1219,28 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "QiXY2-IVk"
           },
           "editorMode": "code",
-          "expr": "rate(mysql_global_status_commands_total[1m])",
-          "legendFormat": "{{instance}}",
+          "expr": "1- rate(node_cpu_seconds_total{mode=\"idle\"}[1m])",
+          "legendFormat": "__auto",
           "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "QiXY2-IVk"
+          },
+          "editorMode": "code",
+          "expr": "",
+          "hide": false,
+          "legendFormat": "{{instance}}",
+          "range": true,
+          "refId": "B"
         }
       ],
-      "title": "Mysql selects per minute [3]",
+      "title": "CPU",
       "type": "timeseries"
     },
     {
@@ -1202,7 +1288,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1214,12 +1301,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 9,
-        "y": 28
+        "h": 8,
+        "w": 9,
+        "x": 0,
+        "y": 21
       },
-      "id": 2,
+      "id": 13,
       "options": {
         "legend": {
           "calcs": [],
@@ -1236,28 +1323,135 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "QiXY2-IVk"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "1- rate(node_cpu_seconds_total{mode=\"idle\"}[1m])",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "QiXY2-IVk"
-          },
-          "editorMode": "code",
-          "expr": "",
-          "hide": false,
+          "expr": "rate(mysql_global_status_commands_total[1m])",
           "legendFormat": "{{instance}}",
           "range": true,
-          "refId": "B"
+          "refId": "A"
         }
       ],
-      "title": "CPU",
+      "title": "Mysql selects per minute [3]",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P6B8560EE0ED75EBD"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 0,
+        "y": 29
+      },
+      "id": 17,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P6B8560EE0ED75EBD"
+          },
+          "groupBy": [
+            {
+              "params": ["$__interval"],
+              "type": "time"
+            },
+            {
+              "params": ["dst"],
+              "type": "tag"
+            },
+            {
+              "params": ["null"],
+              "type": "fill"
+            }
+          ],
+          "measurement": "rtt",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": ["rtt"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "title": "Pinger",
       "type": "timeseries"
     }
   ],
@@ -1276,6 +1470,6 @@
   "timezone": "",
   "title": "Main",
   "uid": "L_IjY-S4k",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }

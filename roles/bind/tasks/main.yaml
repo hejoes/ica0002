@@ -34,7 +34,6 @@
     src: db.nexify.it.j2
     dest: /var/cache/bind/db.nexify.it
     force: no
-    #FORCE NO TEGEMATA SIIN; PEAN HILJEM LISAMA!!
   notify:
     - Restart rndc
   when: inventory_hostname in groups['dns_masters']

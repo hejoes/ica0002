@@ -1,29 +1,36 @@
-hejoes-1 ansible_host=193.40.156.67 ansible_port=1622 ansible_ssh_user=ubuntu
-hejoes-2 ansible_host=193.40.156.67 ansible_port=12422 ansible_ssh_user=ubuntu
+hejoes-1 ansible_host=193.40.156.67 ansible_port=14122 ansible_ssh_user=ubuntu
+hejoes-2 ansible_host=193.40.156.67 ansible_port=15022 ansible_ssh_user=ubuntu
+hejoes-3 ansible_host=193.40.156.67 ansible_port=16822 ansible_ssh_user=ubuntu
 
 [agama]
-#only used for nginx atm, agama is working on both machines
+#could also use app_stack but just pointed it out that agama is in these machines
 hejoes-1
 hejoes-2
 
 [dns_slaves]
+hejoes-1
 hejoes-2
 
 [dns_masters]
-hejoes-1
+hejoes-3
 
 [dns_servers:children]
 dns_masters
 dns_slaves
 
 [prometheus]
-hejoes-2
+hejoes-3
 
 [grafana]
-hejoes-2
+hejoes-3
+
+[nginx]
+#nginx is installed on all machines, (just pointing it out)
+hejoes-3
 
 [influx]
-hejoes-2
+#Also Telegraf is in there
+hejoes-3
 
 [haproxy]
 #not used in calling, instead app_stack is used

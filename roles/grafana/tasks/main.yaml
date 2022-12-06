@@ -47,7 +47,7 @@
     image: grafana/grafana
     published_ports: "{{ grafana_port }}:3000"
     #grafana_port should also be added to nginx reverse proxy under grafana for us to access website
-    restart: yes
     #restart: yes acts as handler, in our case, it always removes old container and creates new one.
     volumes: /opt/grafana:/etc/grafana
     #all our files that are in host directory /opt/grafana will go to /etc/grafana in docker directory, without volumes, we wont be able to feed our own files to container.
+    restart_policy: unless-stopped

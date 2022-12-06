@@ -4,6 +4,6 @@ datasources:
   - name: Prometheus
     type: prometheus
     access: proxy
-    url: http://hejoes-2:9090/prometheus
+    url: http://{{ inventory_hostname }}:9090/prometheus
     isDefault: True
     version: 1

@@ -12,7 +12,7 @@
     ssh_key_file: /home/backup/.ssh/id_rsa
 
 - name: Change /home/backup folder permissions
-#So that i dont get .cache folder not found
+  #So that i dont get .cache folder not found
   file:
     path: "{{ item }}"
     owner: backup
@@ -27,6 +27,7 @@
     dest: /home/backup/.ssh/known_hosts
     owner: backup
     group: backup
+  no_log: true
 
 - name: Create restore directories
   file:

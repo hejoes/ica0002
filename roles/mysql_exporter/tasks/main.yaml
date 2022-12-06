@@ -16,7 +16,7 @@
   template:
     src: my.cnf.j2
     dest: /var/lib/prometheus/.my.cnf
-  #no_log: yes
+  no_log: yes
   notify:
     - Restart mysql exporter
 
@@ -36,4 +36,3 @@
     name: prometheus-mysqld-exporter
     state: started
     enabled: yes
-

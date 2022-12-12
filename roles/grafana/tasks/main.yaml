@@ -30,7 +30,6 @@
     - main
     - mysql
     - syslog
-    - main2
 
 - name: Configure all datasources
   template:

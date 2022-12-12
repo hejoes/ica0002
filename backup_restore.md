@@ -14,7 +14,7 @@ To change crontab schedule, open crontab guru for reference: https://crontab.gur
 Login as root user: `sudo su`
 
 - Restore Agama Mysql data from previous backup:
-  Login to server, where MSQL is located (hejoes-2 or hejoes-1). Change to user root and type:
+  Login to MYSQL master (not read only) (default is hejoes-2, if not, check grafana mysql dashboard to see which machine is mysql master) with root user:
 
   1.  `rm -rf /home/backup/restore/mysql/*`
   2.  `sudo -u backup duplicity --no-encryption restore rsync://hejoes@backup.nexify.it//$HOME/mysql /home/backup/restore/mysql/`

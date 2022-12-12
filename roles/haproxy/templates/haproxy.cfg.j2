@@ -25,13 +25,13 @@ defaults
 	errorfile 504 /etc/haproxy/errors/504.http
 
 listen nexify
-    bind :88
+    bind :{{ haproxy_http_port }}
 		stats enable
 		stats uri /stats
-		server agama1 hejoes-1:{{ agama_port1 }} check
-    server agama2 hejoes-1:{{ agama_port2 }} check
+		{% for vm in groups["agama"] %}
+		{% for agama_port in agama_ports %}
+		server agama{{ loop.index }}_{{ vm }} {{ vm }}:{{ agama_port }} check
+		{% endfor %}
+		{% endfor %}
 		
-		server agama3 hejoes-2:{{ agama_port1 }} check
-    server agama4 hejoes-2:{{ agama_port2 }} check
-
 

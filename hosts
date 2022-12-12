@@ -1,6 +1,6 @@
-hejoes-1 ansible_host=193.40.156.67 ansible_port=18222 ansible_ssh_user=ubuntu
-hejoes-2 ansible_host=193.40.156.67 ansible_port=3022 ansible_ssh_user=ubuntu
-hejoes-3 ansible_host=193.40.156.67 ansible_port=14722 ansible_ssh_user=ubuntu
+hejoes-1 ansible_host=193.40.156.67 ansible_port=2622 ansible_ssh_user=ubuntu
+hejoes-2 ansible_host=193.40.156.67 ansible_port=6422 ansible_ssh_user=ubuntu
+hejoes-3 ansible_host=193.40.156.67 ansible_port=16622 ansible_ssh_user=ubuntu
 
 [agama]
 #could also use app_stack but just pointed it out that agama is in these machines

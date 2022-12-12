@@ -1,4 +1,4 @@
-Tue Dec  6 02:59:37 PM EET 2022
+Mon Dec 12 02:54:08 PM EET 2022
 + hostname
 pop-os
 + ansible-playbook infra.yaml --diff
@@ -6,14 +6,14 @@ pop-os
 PLAY [Init] ********************************************************************
 
 TASK [Gathering Facts] *********************************************************
+ok: [hejoes-2]
 ok: [hejoes-3]
 ok: [hejoes-1]
-ok: [hejoes-2]
 
 TASK [init : Update cache] *****************************************************
-changed: [hejoes-1]
 changed: [hejoes-2]
 changed: [hejoes-3]
+changed: [hejoes-1]
 
 TASK [init : Update CA certificates] *******************************************
 The following packages will be upgraded:
@@ -23,17 +23,17 @@ changed: [hejoes-2]
 The following packages will be upgraded:
   ca-certificates
 1 upgraded, 0 newly installed, 0 to remove and 230 not upgraded.
-changed: [hejoes-3]
+changed: [hejoes-1]
 The following packages will be upgraded:
   ca-certificates
 1 upgraded, 0 newly installed, 0 to remove and 230 not upgraded.
-changed: [hejoes-1]
+changed: [hejoes-3]
 
 PLAY [Run rsyslog task on all hosts] *******************************************
 
 TASK [rsyslog : Copy config for rsyslog] ***************************************
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmp096up5t4/10-telegraf.conf.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpuankfp39/10-telegraf.conf.j2
 @@ -0,0 +1,6 @@
 +$ActionQueueType LinkedList # use asynchronous processing
 +$ActionQueueFileName srvrfwd # set file name, also enables disk mode
@@ -45,7 +45,7 @@ TASK [rsyslog : Copy config for rsyslog] ***************************************
 
 changed: [hejoes-2]
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpf25pdamj/10-telegraf.conf.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpyklyqtht/10-telegraf.conf.j2
 @@ -0,0 +1,6 @@
 +$ActionQueueType LinkedList # use asynchronous processing
 +$ActionQueueFileName srvrfwd # set file name, also enables disk mode
@@ -57,7 +57,7 @@ changed: [hejoes-2]
 
 changed: [hejoes-3]
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpch_pn7e0/10-telegraf.conf.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpyyol9uqc/10-telegraf.conf.j2
 @@ -0,0 +1,6 @@
 +$ActionQueueType LinkedList # use asynchronous processing
 +$ActionQueueFileName srvrfwd # set file name, also enables disk mode
@@ -70,9 +70,9 @@ changed: [hejoes-3]
 changed: [hejoes-1]
 
 RUNNING HANDLER [rsyslog : Restart rsyslog] ************************************
-changed: [hejoes-2]
 changed: [hejoes-3]
 changed: [hejoes-1]
+changed: [hejoes-2]
 
 PLAY [Node Exporter for main monitoring] ***************************************
 
@@ -112,9 +112,9 @@ The following NEW packages will be installed:
 changed: [hejoes-1]
 
 TASK [node_exporter : Start and enable node exporter] **************************
-ok: [hejoes-1]
-ok: [hejoes-3]
 ok: [hejoes-2]
+ok: [hejoes-3]
+ok: [hejoes-1]
 
 PLAY [Backup] ******************************************************************
 
@@ -128,7 +128,7 @@ TASK [backup : Create .ssh directory] ******************************************
 +    "state": "directory"
  }
 
-changed: [hejoes-3]
+changed: [hejoes-1]
 --- before
 +++ after
 @@ -1,4 +1,4 @@
@@ -148,12 +148,12 @@ changed: [hejoes-2]
 +    "state": "directory"
  }
 
-changed: [hejoes-1]
+changed: [hejoes-3]
 
 TASK [backup : Create backup user] *********************************************
-changed: [hejoes-3]
-changed: [hejoes-1]
 changed: [hejoes-2]
+changed: [hejoes-1]
+changed: [hejoes-3]
 
 TASK [backup : Change /home/backup folder permissions] *************************
 --- before
@@ -178,6 +178,7 @@ TASK [backup : Change /home/backup folder permissions] *************************
      "path": "/home/backup"
  }
 
+changed: [hejoes-1] => (item=/home/backup)
 --- before
 +++ after
 @@ -1,5 +1,5 @@
@@ -189,21 +190,8 @@ TASK [backup : Change /home/backup folder permissions] *************************
      "path": "/home/backup"
  }
 
-changed: [hejoes-1] => (item=/home/backup)
-changed: [hejoes-3] => (item=/home/backup)
 changed: [hejoes-2] => (item=/home/backup)
---- before
-+++ after
-@@ -1,5 +1,5 @@
- {
--    "group": 0,
--    "owner": 0,
-+    "group": 34,
-+    "owner": 34,
-     "path": "/home/backup/.ssh"
- }
-
-changed: [hejoes-3] => (item=/home/backup/.ssh)
+changed: [hejoes-3] => (item=/home/backup)
 --- before
 +++ after
 @@ -1,5 +1,5 @@
@@ -228,11 +216,23 @@ changed: [hejoes-2] => (item=/home/backup/.ssh)
  }
 
 changed: [hejoes-1] => (item=/home/backup/.ssh)
+--- before
++++ after
+@@ -1,5 +1,5 @@
+ {
+-    "group": 0,
+-    "owner": 0,
++    "group": 34,
++    "owner": 34,
+     "path": "/home/backup/.ssh"
+ }
+
+changed: [hejoes-3] => (item=/home/backup/.ssh)
 
 TASK [backup : Copy known hosts file] ******************************************
-changed: [hejoes-3]
-changed: [hejoes-2]
 changed: [hejoes-1]
+changed: [hejoes-2]
+changed: [hejoes-3]
 
 TASK [backup : Create restore directories] *************************************
 --- before
@@ -246,18 +246,6 @@ TASK [backup : Create restore directories] *************************************
 +    "state": "directory"
  }
 
---- before
-+++ after
-@@ -1,5 +1,5 @@
- {
--    "owner": 0,
-+    "owner": 34,
-     "path": "/home/backup/restore/mysql",
--    "state": "absent"
-+    "state": "directory"
- }
-
-changed: [hejoes-1] => (item=mysql)
 changed: [hejoes-2] => (item=mysql)
 --- before
 +++ after
@@ -270,19 +258,19 @@ changed: [hejoes-2] => (item=mysql)
 +    "state": "directory"
  }
 
-changed: [hejoes-3] => (item=mysql)
+changed: [hejoes-1] => (item=mysql)
 --- before
 +++ after
 @@ -1,5 +1,5 @@
  {
 -    "owner": 0,
 +    "owner": 34,
-     "path": "/home/backup/restore/influxdb",
+     "path": "/home/backup/restore/mysql",
 -    "state": "absent"
 +    "state": "directory"
  }
 
-changed: [hejoes-3] => (item=influxdb)
+changed: [hejoes-3] => (item=mysql)
 --- before
 +++ after
 @@ -1,5 +1,5 @@
@@ -307,6 +295,18 @@ changed: [hejoes-2] => (item=influxdb)
  }
 
 changed: [hejoes-1] => (item=influxdb)
+--- before
++++ after
+@@ -1,5 +1,5 @@
+ {
+-    "owner": 0,
++    "owner": 34,
+     "path": "/home/backup/restore/influxdb",
+-    "state": "absent"
++    "state": "directory"
+ }
+
+changed: [hejoes-3] => (item=influxdb)
 
 TASK [backup : Install duplicity] **********************************************
 The following additional packages will be installed:
@@ -319,7 +319,7 @@ The following NEW packages will be installed:
   duplicity librsync2 python3-bcrypt python3-fasteners python3-future
   python3-lockfile python3-monotonic python3-paramiko
 0 upgraded, 8 newly installed, 0 to remove and 230 not upgraded.
-changed: [hejoes-3]
+changed: [hejoes-2]
 The following additional packages will be installed:
   librsync2 python3-bcrypt python3-fasteners python3-future python3-lockfile
   python3-monotonic python3-paramiko
@@ -341,7 +341,7 @@ The following NEW packages will be installed:
   duplicity librsync2 python3-bcrypt python3-fasteners python3-future
   python3-lockfile python3-monotonic python3-paramiko
 0 upgraded, 8 newly installed, 0 to remove and 230 not upgraded.
-changed: [hejoes-2]
+changed: [hejoes-3]
 
 PLAY [Docker for all machines] *************************************************
 
@@ -423,11 +423,11 @@ TASK [bind : Instaöö dnspython] **********************************************
 The following NEW packages will be installed:
   python3-dnspython
 0 upgraded, 1 newly installed, 0 to remove and 228 not upgraded.
-changed: [hejoes-3]
+changed: [hejoes-2]
 The following NEW packages will be installed:
   python3-dnspython
 0 upgraded, 1 newly installed, 0 to remove and 228 not upgraded.
-changed: [hejoes-2]
+changed: [hejoes-3]
 The following NEW packages will be installed:
   python3-dnspython
 0 upgraded, 1 newly installed, 0 to remove and 228 not upgraded.
@@ -440,7 +440,35 @@ changed: [hejoes-1]
 
 TASK [bind : Copy over named.local] ********************************************
 --- before: /etc/bind/named.conf.local
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpfw8s85ta/named.conf.local.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmp15f0mou2/named.conf.local.j2
+@@ -1,8 +1,16 @@
+-//
+-// Do any local configuration here
+-//
++zone "nexify.it" {
++	file "db.nexify.it";
+ 
+-// Consider adding the 1918 zones here, if they are not used in your
+-// organization
+-//include "/etc/bind/zones.rfc1918";
++    type slave;
++    masters { 192.168.42.166; };
++};
+ 
++server 192.168.42.166 {
++    keys { transfer.key; };
++};
++
++zone "42.168.192.in-addr.arpa" {
++    file "db.nexify.it_reverse";
++    type slave;
++    masters { 192.168.42.166; };
++};
+\ No newline at end of file
+
+changed: [hejoes-2]
+--- before: /etc/bind/named.conf.local
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmphbazegu5/named.conf.local.j2
 @@ -1,8 +1,15 @@
 -//
 -// Do any local configuration here
@@ -467,7 +495,7 @@ TASK [bind : Copy over named.local] ********************************************
 
 changed: [hejoes-3]
 --- before: /etc/bind/named.conf.local
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmp9holzlxc/named.conf.local.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpup67ahtl/named.conf.local.j2
 @@ -1,8 +1,16 @@
 -//
 -// Do any local configuration here
@@ -479,45 +507,17 @@ changed: [hejoes-3]
 -// organization
 -//include "/etc/bind/zones.rfc1918";
 +    type slave;
-+    masters { 192.168.42.168; };
++    masters { 192.168.42.166; };
 +};
  
-+server 192.168.42.168 {
++server 192.168.42.166 {
 +    keys { transfer.key; };
 +};
 +
 +zone "42.168.192.in-addr.arpa" {
 +    file "db.nexify.it_reverse";
 +    type slave;
-+    masters { 192.168.42.168; };
-+};
-\ No newline at end of file
-
-changed: [hejoes-2]
---- before: /etc/bind/named.conf.local
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmp44zv5b4p/named.conf.local.j2
-@@ -1,8 +1,16 @@
--//
--// Do any local configuration here
--//
-+zone "nexify.it" {
-+	file "db.nexify.it";
- 
--// Consider adding the 1918 zones here, if they are not used in your
--// organization
--//include "/etc/bind/zones.rfc1918";
-+    type slave;
-+    masters { 192.168.42.168; };
-+};
- 
-+server 192.168.42.168 {
-+    keys { transfer.key; };
-+};
-+
-+zone "42.168.192.in-addr.arpa" {
-+    file "db.nexify.it_reverse";
-+    type slave;
-+    masters { 192.168.42.168; };
++    masters { 192.168.42.166; };
 +};
 \ No newline at end of file
 
@@ -525,7 +525,7 @@ changed: [hejoes-1]
 
 TASK [bind : Copy over resolv.conf.j2] *****************************************
 --- before: /etc/resolv.conf
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmp90_nl8z3/resolv.conf.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpj0c9drar/resolv.conf.j2
 @@ -1,19 +1,4 @@
 -# This file is managed by man:systemd-resolved(8). Do not edit.
 -#
@@ -547,39 +547,12 @@ TASK [bind : Copy over resolv.conf.j2] *****************************************
 -nameserver 127.0.0.53
 -options edns0 trust-ad
 -search openstacklocal
-+nameserver 192.168.42.141
-+nameserver 192.168.42.150
-
-changed: [hejoes-3]
---- before: /etc/resolv.conf
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmp5pko3mtz/resolv.conf.j2
-@@ -1,19 +1,4 @@
--# This file is managed by man:systemd-resolved(8). Do not edit.
--#
--# This is a dynamic resolv.conf file for connecting local clients to the
--# internal DNS stub resolver of systemd-resolved. This file lists all
--# configured search domains.
--#
--# Run "resolvectl status" to see details about the uplink DNS servers
--# currently in use.
--#
--# Third party programs must not access this file directly, but only through the
--# symlink at /etc/resolv.conf. To manage man:resolv.conf(5) in a different way,
--# replace this symlink by a static file or a different symlink.
--#
--# See man:systemd-resolved.service(8) for details about the supported modes of
--# operation for /etc/resolv.conf.
-+search nexify.it
- 
--nameserver 127.0.0.53
--options edns0 trust-ad
--search openstacklocal
-+nameserver 192.168.42.141
-+nameserver 192.168.42.150
++nameserver 192.168.42.26
++nameserver 192.168.42.64
 
 changed: [hejoes-2]
 --- before: /etc/resolv.conf
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpxhpwxwqj/resolv.conf.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpk3ycsy3m/resolv.conf.j2
 @@ -1,19 +1,4 @@
 -# This file is managed by man:systemd-resolved(8). Do not edit.
 -#
@@ -601,8 +574,35 @@ changed: [hejoes-2]
 -nameserver 127.0.0.53
 -options edns0 trust-ad
 -search openstacklocal
-+nameserver 192.168.42.141
-+nameserver 192.168.42.150
++nameserver 192.168.42.26
++nameserver 192.168.42.64
+
+changed: [hejoes-3]
+--- before: /etc/resolv.conf
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpzdbmn9ny/resolv.conf.j2
+@@ -1,19 +1,4 @@
+-# This file is managed by man:systemd-resolved(8). Do not edit.
+-#
+-# This is a dynamic resolv.conf file for connecting local clients to the
+-# internal DNS stub resolver of systemd-resolved. This file lists all
+-# configured search domains.
+-#
+-# Run "resolvectl status" to see details about the uplink DNS servers
+-# currently in use.
+-#
+-# Third party programs must not access this file directly, but only through the
+-# symlink at /etc/resolv.conf. To manage man:resolv.conf(5) in a different way,
+-# replace this symlink by a static file or a different symlink.
+-#
+-# See man:systemd-resolved.service(8) for details about the supported modes of
+-# operation for /etc/resolv.conf.
++search nexify.it
+ 
+-nameserver 127.0.0.53
+-options edns0 trust-ad
+-search openstacklocal
++nameserver 192.168.42.26
++nameserver 192.168.42.64
 
 changed: [hejoes-1]
 
@@ -610,7 +610,7 @@ TASK [bind : Copy over db.domain] **********************************************
 skipping: [hejoes-1]
 skipping: [hejoes-2]
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpkoox5lqq/db.nexify.it.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpsvamd2hg/db.nexify.it.j2
 @@ -0,0 +1,16 @@
 +$TTL	604800
 +nexify.it.	IN	SOA	hejoes-3.nexify.it. mail.nexify.it. (
@@ -623,9 +623,9 @@ skipping: [hejoes-2]
 +nexify.it.	IN	NS	hejoes-1
 +nexify.it.	IN	NS	hejoes-2
 +nexify.it.	IN	NS	hejoes-3
-+hejoes-1 IN A 192.168.42.141
-+hejoes-2 IN A 192.168.42.150
-+hejoes-3 IN A 192.168.42.168
++hejoes-1 IN A 192.168.42.26
++hejoes-2 IN A 192.168.42.64
++hejoes-3 IN A 192.168.42.166
 +
 +backup IN A 192.168.42.132
 \ No newline at end of file
@@ -636,7 +636,7 @@ TASK [bind : Copy over db.domain reverse] **************************************
 skipping: [hejoes-1]
 skipping: [hejoes-2]
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpsn_ci5z3/db.nexify.it_reverse.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpqspzscii/db.nexify.it_reverse.j2
 @@ -0,0 +1,14 @@
 +$TTL	604800
 +42.168.192.in-addr.arpa. IN	SOA	hejoes-3.nexify.it. mail.nexify.it. (
@@ -649,9 +649,9 @@ skipping: [hejoes-2]
 +42.168.192.in-addr.arpa. IN	NS	hejoes-3.nexify.it. 
 +42.168.192.in-addr.arpa. IN	NS	hejoes-1.nexify.it. 
 +42.168.192.in-addr.arpa. IN	NS	hejoes-2.nexify.it. 
-+141 IN PTR hejoes-1.nexify.it.
-+150 IN PTR hejoes-2.nexify.it.
-+168 IN PTR hejoes-3.nexify.it.
++26 IN PTR hejoes-1.nexify.it.
++64 IN PTR hejoes-2.nexify.it.
++166 IN PTR hejoes-3.nexify.it.
 
 changed: [hejoes-3]
 
@@ -667,8 +667,8 @@ changed: [hejoes-3]
 
 TASK [bind : Ensure bind is running] *******************************************
 ok: [hejoes-3]
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [bind : Add backup server A record] ***************************************
 skipping: [hejoes-1] => (item=None) 
@@ -682,24 +682,24 @@ TASK [bind : Add additional CNAME records] *************************************
 skipping: [hejoes-1] => (item=None) 
 skipping: [hejoes-1] => (item=None) 
 skipping: [hejoes-1] => (item=None) 
+skipping: [hejoes-1] => (item=None) 
+skipping: [hejoes-2] => (item=None) 
+skipping: [hejoes-1] => (item=None) 
+skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-1] => (item=None) 
 skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-1] => (item=None) 
 skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-1] => (item=None) 
-skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-1] => (item=None) 
-skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-1] => (item=None) 
-skipping: [hejoes-2] => (item=None) 
-skipping: [hejoes-1] => (item=None) 
-skipping: [hejoes-2] => (item=None) 
-skipping: [hejoes-1] => (item=None) 
-skipping: [hejoes-2] => (item=None) 
-skipping: [hejoes-2] => (item=None) 
-skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-1]
+skipping: [hejoes-2] => (item=None) 
+skipping: [hejoes-2] => (item=None) 
+skipping: [hejoes-2] => (item=None) 
+skipping: [hejoes-2] => (item=None) 
+skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-2]
 changed: [hejoes-3] => (item=None)
 changed: [hejoes-3] => (item=None)
@@ -717,15 +717,15 @@ TASK [bind_exporter : Install bind9 exporter] **********************************
 The following NEW packages will be installed:
   prometheus-bind-exporter
 0 upgraded, 1 newly installed, 0 to remove and 228 not upgraded.
-changed: [hejoes-3]
-The following NEW packages will be installed:
-  prometheus-bind-exporter
-0 upgraded, 1 newly installed, 0 to remove and 228 not upgraded.
 changed: [hejoes-2]
 The following NEW packages will be installed:
   prometheus-bind-exporter
 0 upgraded, 1 newly installed, 0 to remove and 228 not upgraded.
 changed: [hejoes-1]
+The following NEW packages will be installed:
+  prometheus-bind-exporter
+0 upgraded, 1 newly installed, 0 to remove and 228 not upgraded.
+changed: [hejoes-3]
 
 TASK [bind_exporter : Start and enable bind9 exporter] *************************
 ok: [hejoes-1]
@@ -755,7 +755,7 @@ The following NEW packages will be installed:
   mecab-utils mysql-client-8.0 mysql-client-core-8.0 mysql-common mysql-server
   mysql-server-8.0 mysql-server-core-8.0
 0 upgraded, 24 newly installed, 0 to remove and 228 not upgraded.
-changed: [hejoes-1]
+changed: [hejoes-2]
 The following additional packages will be installed:
   libcgi-fast-perl libcgi-pm-perl libencode-locale-perl libevent-core-2.1-7
   libevent-pthreads-2.1-7 libfcgi-perl libhtml-parser-perl libhtml-tagset-perl
@@ -773,7 +773,7 @@ The following NEW packages will be installed:
   mecab-utils mysql-client-8.0 mysql-client-core-8.0 mysql-common mysql-server
   mysql-server-8.0 mysql-server-core-8.0
 0 upgraded, 24 newly installed, 0 to remove and 228 not upgraded.
-changed: [hejoes-2]
+changed: [hejoes-1]
 
 TASK [mysql : Install pymysql] *************************************************
 Suggested packages:
@@ -791,7 +791,7 @@ changed: [hejoes-1]
 
 TASK [mysql : Change MySQL config] *********************************************
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmp1xa1gfjr/override.cnf
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmp480ydipf/override.cnf
 @@ -0,0 +1,7 @@
 +[mysqld]
 +bind-address = 0.0.0.0
@@ -799,39 +799,39 @@ TASK [mysql : Change MySQL config] *********************************************
 +log-bin = /var/log/mysql/mysql-bin.log
 +relay-log = /var/log/mysql/mysql-relay.log
 +replicate-do-db = agama
-+server-id = 141
-\ No newline at end of file
-
-changed: [hejoes-1]
---- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpovq92dwt/override.cnf
-@@ -0,0 +1,7 @@
-+[mysqld]
-+bind-address = 0.0.0.0
-+
-+log-bin = /var/log/mysql/mysql-bin.log
-+relay-log = /var/log/mysql/mysql-relay.log
-+replicate-do-db = agama
-+server-id = 150
++server-id = 64
 \ No newline at end of file
 
 changed: [hejoes-2]
+--- before
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpccpv6q9a/override.cnf
+@@ -0,0 +1,7 @@
++[mysqld]
++bind-address = 0.0.0.0
++
++log-bin = /var/log/mysql/mysql-bin.log
++relay-log = /var/log/mysql/mysql-relay.log
++replicate-do-db = agama
++server-id = 26
+\ No newline at end of file
+
+changed: [hejoes-1]
 
 TASK [mysql : Start the MySQL service and enable it] ***************************
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
 
 TASK [mysql : MySQL database] **************************************************
 changed: [hejoes-1]
 changed: [hejoes-2]
 
 TASK [mysql : MySQL user - agama] **********************************************
-changed: [hejoes-1]
 changed: [hejoes-2]
+changed: [hejoes-1]
 
 TASK [mysql : MySQL replication user] ******************************************
-changed: [hejoes-1]
 changed: [hejoes-2]
+changed: [hejoes-1]
 
 TASK [mysql : MySQL replica read only] *****************************************
 changed: [hejoes-1]
@@ -843,13 +843,13 @@ The following additional packages will be installed:
 The following NEW packages will be installed:
   daemon prometheus-mysqld-exporter
 0 upgraded, 2 newly installed, 0 to remove and 228 not upgraded.
-changed: [hejoes-1]
+changed: [hejoes-2]
 The following additional packages will be installed:
   daemon
 The following NEW packages will be installed:
   daemon prometheus-mysqld-exporter
 0 upgraded, 2 newly installed, 0 to remove and 228 not upgraded.
-changed: [hejoes-2]
+changed: [hejoes-1]
 
 TASK [mysql_exporter : MySQL user for mysql exporter] **************************
 changed: [hejoes-1]
@@ -1121,8 +1121,8 @@ changed: [hejoes-1]
 changed: [hejoes-2]
 
 TASK [mysql_exporter : Start and enable mysql exporter] ************************
-changed: [hejoes-2]
 changed: [hejoes-1]
+changed: [hejoes-2]
 
 TASK [mysql_backup : Create mysql backup directory] ****************************
 --- before
@@ -1136,7 +1136,7 @@ TASK [mysql_backup : Create mysql backup directory] ****************************
 +    "state": "directory"
  }
 
-changed: [hejoes-1]
+changed: [hejoes-2]
 --- before
 +++ after
 @@ -1,5 +1,5 @@
@@ -1148,19 +1148,20 @@ changed: [hejoes-1]
 +    "state": "directory"
  }
 
-changed: [hejoes-2]
+changed: [hejoes-1]
 
 TASK [mysql_backup : MySQL user for backup] ************************************
-changed: [hejoes-1]
 changed: [hejoes-2]
+changed: [hejoes-1]
 
 TASK [mysql_backup : Change my.cnf mysql config] *******************************
-changed: [hejoes-2]
 changed: [hejoes-1]
+changed: [hejoes-2]
 
 TASK [mysql_backup : Copy mysql backup crontab file] ***************************
+changed: [hejoes-2]
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpwgtnvpxo/mysql-backup.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpnzrgi1xv/mysql-backup.j2
 @@ -0,0 +1,5 @@
 +0 20 * * * backup mysqldump agama > /home/backup/mysql/agama.sql
 +
@@ -1169,11 +1170,10 @@ TASK [mysql_backup : Copy mysql backup crontab file] ***************************
 +10 20 * * * backup  duplicity --no-encryption incremental /home/backup/mysql/ rsync://hejoes@backup.nexify.it/mysql
 
 changed: [hejoes-1]
-changed: [hejoes-2]
 
 RUNNING HANDLER [mysql : Restart mysql] ****************************************
-changed: [hejoes-1]
 changed: [hejoes-2]
+changed: [hejoes-1]
 
 RUNNING HANDLER [mysql : Reset MySQL source] ***********************************
 skipping: [hejoes-1] => (item=stopreplica) 
@@ -1194,8 +1194,8 @@ changed: [hejoes-1] => (item=None)
 changed: [hejoes-1]
 
 RUNNING HANDLER [mysql_exporter : Restart mysql exporter] **********************
-changed: [hejoes-1]
 changed: [hejoes-2]
+changed: [hejoes-1]
 
 PLAY [Nginx at App Stack] ******************************************************
 
@@ -1213,7 +1213,7 @@ The following NEW packages will be installed:
   libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5
   libwebp6 libxpm4 nginx nginx-common nginx-core
 0 upgraded, 17 newly installed, 0 to remove and 228 not upgraded.
-changed: [hejoes-1]
+changed: [hejoes-2]
 The following additional packages will be installed:
   fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0
   libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter
@@ -1227,7 +1227,7 @@ The following NEW packages will be installed:
   libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5
   libwebp6 libxpm4 nginx nginx-common nginx-core
 0 upgraded, 17 newly installed, 0 to remove and 228 not upgraded.
-changed: [hejoes-2]
+changed: [hejoes-1]
 
 TASK [nginx : Change nginx main page] ******************************************
 --- before
@@ -1254,7 +1254,7 @@ TASK [nginx : Change nginx main page] ******************************************
 +</html>
 \ No newline at end of file
 
-changed: [hejoes-2]
+changed: [hejoes-1]
 --- before
 +++ after: /home/hejoes/ica0002/roles/nginx/files/index.html
 @@ -0,0 +1,19 @@
@@ -1279,11 +1279,11 @@ changed: [hejoes-2]
 +</html>
 \ No newline at end of file
 
-changed: [hejoes-1]
+changed: [hejoes-2]
 
 TASK [nginx : Change nginx config] *********************************************
 --- before: /etc/nginx/sites-enabled/default
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpv6ipauiw/default.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpxmxxne08/default.j2
 @@ -1,91 +1,24 @@
 -##
 -# You should look at the following URL's in order to grasp a solid understanding
@@ -1397,7 +1397,7 @@ TASK [nginx : Change nginx config] *********************************************
 
 changed: [hejoes-2]
 --- before: /etc/nginx/sites-enabled/default
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmppbr_mmm3/default.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmphy_4__9q/default.j2
 @@ -1,91 +1,24 @@
 -##
 -# You should look at the following URL's in order to grasp a solid understanding
@@ -1512,22 +1512,22 @@ changed: [hejoes-2]
 changed: [hejoes-1]
 
 TASK [nginx : Start and enable nginx (always needed)] **************************
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
 
 TASK [nginx_exporter : Install nginx exporter] *********************************
 The following NEW packages will be installed:
   prometheus-nginx-exporter
 0 upgraded, 1 newly installed, 0 to remove and 228 not upgraded.
-changed: [hejoes-1]
+changed: [hejoes-2]
 The following NEW packages will be installed:
   prometheus-nginx-exporter
 0 upgraded, 1 newly installed, 0 to remove and 228 not upgraded.
-changed: [hejoes-2]
+changed: [hejoes-1]
 
 TASK [nginx_exporter : Change nginx config for exporter] ***********************
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmp71lho48u/exporter
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmp20qe6x4_/exporter
 @@ -0,0 +1,7 @@
 +server {
 +	listen 8080 default_server;
@@ -1540,7 +1540,7 @@ TASK [nginx_exporter : Change nginx config for exporter] ***********************
 
 changed: [hejoes-2]
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpjn6ni6sm/exporter
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpvkz44sx1/exporter
 @@ -0,0 +1,7 @@
 +server {
 +	listen 8080 default_server;
@@ -1558,8 +1558,8 @@ changed: [hejoes-2]
 changed: [hejoes-1]
 
 RUNNING HANDLER [nginx : Restart nginx] ****************************************
-changed: [hejoes-1]
 changed: [hejoes-2]
+changed: [hejoes-1]
 
 RUNNING HANDLER [nginx_exporter : Restart nginx exporter] **********************
 changed: [hejoes-2]
@@ -1577,7 +1577,7 @@ TASK [agama : Add Agama directory] *********************************************
 +    "state": "directory"
  }
 
-changed: [hejoes-1]
+changed: [hejoes-2]
 --- before
 +++ after
 @@ -1,4 +1,4 @@
@@ -1587,23 +1587,23 @@ changed: [hejoes-1]
 +    "state": "directory"
  }
 
-changed: [hejoes-2]
+changed: [hejoes-1]
 
 TASK [agama : Download agama] **************************************************
-changed: [hejoes-1]
 changed: [hejoes-2]
+changed: [hejoes-1]
 
 TASK [agama : Get agama] *******************************************************
-changed: [hejoes-2]
 changed: [hejoes-1]
+changed: [hejoes-2]
 
 TASK [agama : Build docker image from Dockerfile] ******************************
 changed: [hejoes-2]
 changed: [hejoes-1]
 
 TASK [agama : Start the container from built image] ****************************
-changed: [hejoes-2]
 changed: [hejoes-1]
+changed: [hejoes-2]
 
 TASK [agama : Start 2nd agama container(for haproxy)] **************************
 changed: [hejoes-2]
@@ -1634,45 +1634,12 @@ The following NEW packages will be installed:
 changed: [hejoes-1]
 
 TASK [keepalived : Add user "keepalived_script"] *******************************
-changed: [hejoes-1]
 changed: [hejoes-2]
+changed: [hejoes-1]
 
 TASK [keepalived : Change keepalived config] ***********************************
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpr4f38qri/keepalived.conf.j2
-@@ -0,0 +1,27 @@
-+global_defs {
-+    enable_script_security
-+    script_user keepalived_script
-+}
-+
-+vrrp_script check_haproxy {                 
-+    script "/home/keepalived_script/vrrp_script" 
-+    weight 20                              
-+    interval 1               
-+}
-+vrrp_instance nexify {             
-+    interface ens3
-+    virtual_router_id 1
-+        priority 5
-+        advert_int 1                            
-+    virtual_ipaddress {                     
-+        192.168.100.141/24                     
-+    }
-+    unicast_peer {                          
-+                            
-+                192.168.42.141
-+                                    
-+                    }
-+    track_script {
-+        check_haproxy
-+    }
-+}
-\ No newline at end of file
-
-changed: [hejoes-2]
---- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmp814tfk2x/keepalived.conf.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpv5tj1buf/keepalived.conf.j2
 @@ -0,0 +1,27 @@
 +global_defs {
 +    enable_script_security
@@ -1690,12 +1657,12 @@ changed: [hejoes-2]
 +        priority 100
 +        advert_int 1                            
 +    virtual_ipaddress {                     
-+        192.168.100.141/24                     
++        192.168.100.26/24                     
 +    }
 +    unicast_peer {                          
 +                            
 +                                    
-+                192.168.42.150
++                192.168.42.64
 +                    }
 +    track_script {
 +        check_haproxy
@@ -1704,6 +1671,39 @@ changed: [hejoes-2]
 \ No newline at end of file
 
 changed: [hejoes-1]
+--- before
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpxuldp53_/keepalived.conf.j2
+@@ -0,0 +1,27 @@
++global_defs {
++    enable_script_security
++    script_user keepalived_script
++}
++
++vrrp_script check_haproxy {                 
++    script "/home/keepalived_script/vrrp_script" 
++    weight 20                              
++    interval 1               
++}
++vrrp_instance nexify {             
++    interface ens3
++    virtual_router_id 1
++        priority 5
++        advert_int 1                            
++    virtual_ipaddress {                     
++        192.168.100.26/24                     
++    }
++    unicast_peer {                          
++                            
++                192.168.42.26
++                                    
++                    }
++    track_script {
++        check_haproxy
++    }
++}
+\ No newline at end of file
+
+changed: [hejoes-2]
 
 TASK [keepalived : Copy keepalived script file] ********************************
 --- before
@@ -1724,14 +1724,14 @@ changed: [hejoes-2]
 changed: [hejoes-1]
 
 TASK [keepalived : Start and enable keepalived] ********************************
-changed: [hejoes-1]
 changed: [hejoes-2]
+changed: [hejoes-1]
 
 TASK [keepalived_exporter : Copy keepalived exporter binary] *******************
 diff skipped: source file size is greater than 104448
-changed: [hejoes-1]
-diff skipped: source file size is greater than 104448
 changed: [hejoes-2]
+diff skipped: source file size is greater than 104448
+changed: [hejoes-1]
 
 TASK [keepalived_exporter : Copy keepalived exporter service file] *************
 --- before
@@ -1770,8 +1770,8 @@ changed: [hejoes-2]
 changed: [hejoes-1]
 
 RUNNING HANDLER [keepalived : restart keepalived] ******************************
-changed: [hejoes-2]
 changed: [hejoes-1]
+changed: [hejoes-2]
 
 RUNNING HANDLER [keepalived_exporter : Reload systemd] *************************
 changed: [hejoes-2]
@@ -1799,7 +1799,7 @@ changed: [hejoes-1]
 
 TASK [haproxy : Configure haproxy] *********************************************
 --- before: /etc/haproxy/haproxy.cfg
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpbt7jt93e/haproxy.cfg.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmp3kd2asci/haproxy.cfg.j2
 @@ -7,15 +7,6 @@
  	user haproxy
  	group haproxy
@@ -1835,7 +1835,7 @@ TASK [haproxy : Configure haproxy] *********************************************
 
 changed: [hejoes-2]
 --- before: /etc/haproxy/haproxy.cfg
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmp473mrl_r/haproxy.cfg.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmp5u2nqvcn/haproxy.cfg.j2
 @@ -7,15 +7,6 @@
  	user haproxy
  	group haproxy
@@ -1872,8 +1872,8 @@ changed: [hejoes-2]
 changed: [hejoes-1]
 
 TASK [haproxy : Start hapxory] *************************************************
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
 
 TASK [haproxy_exporter : Install haproxy exporter] *****************************
 The following NEW packages will be installed:
@@ -1887,7 +1887,7 @@ changed: [hejoes-1]
 
 TASK [haproxy_exporter : Change haproxy exporter config] ***********************
 --- before: /etc/default/prometheus-haproxy-exporter
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmp7emwsujo/prometheus-haproxy-exporter.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpsv6dugmm/prometheus-haproxy-exporter.j2
 @@ -1,35 +1 @@
 -# Set the command-line arguments to pass to the server.
 -# Due to shell scaping, to pass backslashes for regexes, you need to double
@@ -1929,7 +1929,7 @@ TASK [haproxy_exporter : Change haproxy exporter config] ***********************
 
 changed: [hejoes-1]
 --- before: /etc/default/prometheus-haproxy-exporter
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpqwru532z/prometheus-haproxy-exporter.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpxalkafbz/prometheus-haproxy-exporter.j2
 @@ -1,35 +1 @@
 -# Set the command-line arguments to pass to the server.
 -# Due to shell scaping, to pass backslashes for regexes, you need to double
@@ -1980,8 +1980,8 @@ changed: [hejoes-2]
 changed: [hejoes-1]
 
 RUNNING HANDLER [haproxy_exporter : Restart haproxy exporter] ******************
-changed: [hejoes-1]
 changed: [hejoes-2]
+changed: [hejoes-1]
 
 PLAY [nginx as frontend for grafana and prometheus] ****************************
 
@@ -2030,7 +2030,7 @@ changed: [hejoes-3]
 
 TASK [nginx : Change nginx config] *********************************************
 --- before: /etc/nginx/sites-enabled/default
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpqwqpw5va/default.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpbuxcodn5/default.j2
 @@ -1,91 +1,19 @@
 -##
 -# You should look at the following URL's in order to grasp a solid understanding
@@ -2152,7 +2152,7 @@ changed: [hejoes-3]
 
 TASK [nginx_exporter : Change nginx config for exporter] ***********************
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpatq16yle/exporter
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpzdznjc26/exporter
 @@ -0,0 +1,7 @@
 +server {
 +	listen 8080 default_server;
@@ -2196,7 +2196,7 @@ changed: [hejoes-3]
 
 TASK [prometheus : Add prometheus ARGS] ****************************************
 --- before: /etc/default/prometheus
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpb1_kfw0j/prometheus
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmp9fxb17vh/prometheus
 @@ -1,57 +1 @@
 -# Set the command-line arguments to pass to the server.
 -ARGS=""
@@ -2262,7 +2262,7 @@ changed: [hejoes-3]
 
 TASK [prometheus : Add prometheus yml] *****************************************
 --- before: /etc/prometheus/prometheus.yml
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpdk4sirj8/prometheus.yml.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpo9cc3_6y/prometheus.yml.j2
 @@ -1,44 +1,56 @@
 -# Sample config for Prometheus.
 +global:
@@ -2394,7 +2394,7 @@ changed: [hejoes-3]
 
 TASK [grafana : Configuration dashboards] **************************************
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpg8r7_wdr/dashboards.yaml.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpsu1xcn3b/dashboards.yaml.j2
 @@ -0,0 +1,21 @@
 +apiVersion: 1
 +
@@ -6787,7 +6787,7 @@ changed: [hejoes-3] => (item=main2)
 
 TASK [grafana : Configure all datasources] *************************************
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpvh5gvh7i/prometheus_ds.yaml.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpepjhne3y/prometheus_ds.yaml.j2
 @@ -0,0 +1,9 @@
 +apiVersion: 1
 +
@@ -6802,7 +6802,7 @@ TASK [grafana : Configure all datasources] *************************************
 
 changed: [hejoes-3] => (item=prometheus_ds.yaml)
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpn9anpjdg/influx_telegraf_ds.yaml.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpktoxeaq4/influx_telegraf_ds.yaml.j2
 @@ -0,0 +1,8 @@
 +apiVersion: 1
 +
@@ -6816,7 +6816,7 @@ changed: [hejoes-3] => (item=prometheus_ds.yaml)
 
 changed: [hejoes-3] => (item=influx_telegraf_ds.yaml)
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmprr3d86b2/influx_latency_ds.yaml.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmp5t5k9ohv/influx_latency_ds.yaml.j2
 @@ -0,0 +1,8 @@
 +apiVersion: 1
 +
@@ -7583,7 +7583,7 @@ changed: [hejoes-3]
 
 TASK [pinger : Copy pinger config] *********************************************
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmppfzq3gh6/pinger.conf.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpuz_ws06s/pinger.conf.j2
 @@ -0,0 +1,3 @@
 +database_url=http://hejoes-3:8086
 +database_name=latency
@@ -7611,7 +7611,7 @@ changed: [hejoes-3]
 
 TASK [influxdb_backup : Copy crontab file] *************************************
 --- before
-+++ after: /home/hejoes/.ansible/tmp/ansible-local-35005wyuzbnqu/tmpu5zqx23d/influxdb-backup.j2
++++ after: /home/hejoes/.ansible/tmp/ansible-local-33705lcfpojcc/tmpfkl4umis/influxdb-backup.j2
 @@ -0,0 +1,3 @@
 +15 20 * * * backup rm -rf /home/backup/influxdb/*; influxd backup -portable -database telegraf /home/backup/influxdb/
 +20 20 * * 0 backup duplicity --no-encryption full /home/backup/influxdb/ rsync://hejoes@backup.nexify.it//home/hejoes/influxdb/
@@ -7647,13 +7647,13 @@ ok: [hejoes-2]
 ok: [hejoes-1]
 
 TASK [init : Update cache] *****************************************************
-ok: [hejoes-1]
-ok: [hejoes-3]
 ok: [hejoes-2]
+ok: [hejoes-3]
+ok: [hejoes-1]
 
 TASK [init : Update CA certificates] *******************************************
-ok: [hejoes-3]
 ok: [hejoes-2]
+ok: [hejoes-3]
 ok: [hejoes-1]
 
 PLAY [Run rsyslog task on all hosts] *******************************************
@@ -7666,64 +7666,64 @@ ok: [hejoes-2]
 PLAY [Node Exporter for main monitoring] ***************************************
 
 TASK [node_exporter : Install node exporter] ***********************************
+ok: [hejoes-2]
 ok: [hejoes-3]
 ok: [hejoes-1]
-ok: [hejoes-2]
 
 TASK [node_exporter : Start and enable node exporter] **************************
-ok: [hejoes-1]
-ok: [hejoes-2]
 ok: [hejoes-3]
+ok: [hejoes-2]
+ok: [hejoes-1]
 
 PLAY [Backup] ******************************************************************
 
 TASK [backup : Create .ssh directory] ******************************************
+ok: [hejoes-1]
 ok: [hejoes-2]
 ok: [hejoes-3]
-ok: [hejoes-1]
 
 TASK [backup : Create backup user] *********************************************
-ok: [hejoes-1]
 ok: [hejoes-2]
 ok: [hejoes-3]
+ok: [hejoes-1]
 
 TASK [backup : Change /home/backup folder permissions] *************************
-ok: [hejoes-1] => (item=/home/backup)
 ok: [hejoes-2] => (item=/home/backup)
 ok: [hejoes-3] => (item=/home/backup)
-ok: [hejoes-3] => (item=/home/backup/.ssh)
+ok: [hejoes-1] => (item=/home/backup)
 ok: [hejoes-1] => (item=/home/backup/.ssh)
 ok: [hejoes-2] => (item=/home/backup/.ssh)
+ok: [hejoes-3] => (item=/home/backup/.ssh)
 
 TASK [backup : Copy known hosts file] ******************************************
-ok: [hejoes-3]
 ok: [hejoes-2]
+ok: [hejoes-3]
 ok: [hejoes-1]
 
 TASK [backup : Create restore directories] *************************************
-ok: [hejoes-1] => (item=mysql)
 ok: [hejoes-3] => (item=mysql)
+ok: [hejoes-1] => (item=mysql)
 ok: [hejoes-2] => (item=mysql)
 ok: [hejoes-3] => (item=influxdb)
 ok: [hejoes-1] => (item=influxdb)
 ok: [hejoes-2] => (item=influxdb)
 
 TASK [backup : Install duplicity] **********************************************
+ok: [hejoes-2]
 ok: [hejoes-3]
 ok: [hejoes-1]
-ok: [hejoes-2]
 
 PLAY [Docker for all machines] *************************************************
 
 TASK [docker : Install docker] *************************************************
+ok: [hejoes-2]
 ok: [hejoes-3]
 ok: [hejoes-1]
-ok: [hejoes-2]
 
 TASK [docker : Start and enable docker] ****************************************
-ok: [hejoes-2]
 ok: [hejoes-3]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 PLAY [Bind9 for all machines] **************************************************
 
@@ -7733,24 +7733,24 @@ ok: [hejoes-1]
 ok: [hejoes-2]
 
 TASK [bind : Instaöö dnspython] ************************************************
-ok: [hejoes-1]
-ok: [hejoes-3]
 ok: [hejoes-2]
+ok: [hejoes-3]
+ok: [hejoes-1]
 
 TASK [bind : Copy over named.conf.options] *************************************
-ok: [hejoes-1]
 ok: [hejoes-3]
+ok: [hejoes-1]
 ok: [hejoes-2]
 
 TASK [bind : Copy over named.local] ********************************************
-ok: [hejoes-3]
 ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-3]
 
 TASK [bind : Copy over resolv.conf.j2] *****************************************
-ok: [hejoes-3]
 ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-3]
 
 TASK [bind : Copy over db.domain] **********************************************
 skipping: [hejoes-1]
@@ -7765,9 +7765,9 @@ ok: [hejoes-3]
 TASK [bind : Execute handlers] *************************************************
 
 TASK [bind : Ensure bind is running] *******************************************
-ok: [hejoes-3]
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
+ok: [hejoes-3]
 
 TASK [bind : Add backup server A record] ***************************************
 skipping: [hejoes-1] => (item=None) 
@@ -7788,18 +7788,18 @@ skipping: [hejoes-1] => (item=None)
 skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-1] => (item=None) 
 skipping: [hejoes-2] => (item=None) 
-skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-1] => (item=None) 
 skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-1] => (item=None) 
 skipping: [hejoes-2] => (item=None) 
-skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-1] => (item=None) 
 skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-1] => (item=None) 
-skipping: [hejoes-2]
+skipping: [hejoes-2] => (item=None) 
+skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-1]
+skipping: [hejoes-2]
 ok: [hejoes-3] => (item=None)
 ok: [hejoes-3] => (item=None)
 ok: [hejoes-3] => (item=None)
@@ -7814,23 +7814,23 @@ ok: [hejoes-3]
 
 TASK [bind_exporter : Install bind9 exporter] **********************************
 ok: [hejoes-3]
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
 
 TASK [bind_exporter : Start and enable bind9 exporter] *************************
-ok: [hejoes-1]
 ok: [hejoes-3]
+ok: [hejoes-1]
 ok: [hejoes-2]
 
 PLAY [MySQL] *******************************************************************
 
 TASK [mysql : Install MySQL] ***************************************************
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
 
 TASK [mysql : Install pymysql] *************************************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [mysql : Change MySQL config] *********************************************
 ok: [hejoes-1]
@@ -7886,8 +7886,8 @@ ok: [hejoes-1]
 ok: [hejoes-2]
 
 TASK [mysql_backup : MySQL user for backup] ************************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [mysql_backup : Change my.cnf mysql config] *******************************
 ok: [hejoes-1]
@@ -7900,20 +7900,20 @@ ok: [hejoes-1]
 PLAY [Nginx at App Stack] ******************************************************
 
 TASK [nginx : Install nginx] ***************************************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [nginx : Change nginx main page] ******************************************
 ok: [hejoes-1]
 ok: [hejoes-2]
 
 TASK [nginx : Change nginx config] *********************************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [nginx : Start and enable nginx (always needed)] **************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [nginx_exporter : Install nginx exporter] *********************************
 ok: [hejoes-1]
@@ -7930,28 +7930,28 @@ ok: [hejoes-2]
 PLAY [Agama] *******************************************************************
 
 TASK [agama : Add Agama directory] *********************************************
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
 
 TASK [agama : Download agama] **************************************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [agama : Get agama] *******************************************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [agama : Build docker image from Dockerfile] ******************************
+ok: [hejoes-2]
+ok: [hejoes-1]
+
+TASK [agama : Start the container from built image] ****************************
 ok: [hejoes-1]
 ok: [hejoes-2]
 
-TASK [agama : Start the container from built image] ****************************
-changed: [hejoes-1]
-changed: [hejoes-2]
-
 TASK [agama : Start 2nd agama container(for haproxy)] **************************
-changed: [hejoes-1]
-changed: [hejoes-2]
+ok: [hejoes-1]
+ok: [hejoes-2]
 
 PLAY [Keepallived] *************************************************************
 
@@ -7960,24 +7960,24 @@ ok: [hejoes-1]
 ok: [hejoes-2]
 
 TASK [keepalived : Add user "keepalived_script"] *******************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [keepalived : Change keepalived config] ***********************************
 ok: [hejoes-1]
 ok: [hejoes-2]
 
 TASK [keepalived : Copy keepalived script file] ********************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [keepalived : Start and enable keepalived] ********************************
 ok: [hejoes-1]
 ok: [hejoes-2]
 
 TASK [keepalived_exporter : Copy keepalived exporter binary] *******************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [keepalived_exporter : Copy keepalived exporter service file] *************
 ok: [hejoes-1]
@@ -8010,8 +8010,8 @@ ok: [hejoes-1]
 ok: [hejoes-2]
 
 TASK [haproxy_exporter : Start and enable haproxy exporter] ********************
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
 
 PLAY [nginx as frontend for grafana and prometheus] ****************************
 
@@ -8139,24 +8139,24 @@ TASK [influxdb_backup : Copy crontab file] *************************************
 ok: [hejoes-3]
 
 PLAY RECAP *********************************************************************
-hejoes-1                   : ok=67   changed=2    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0   
-hejoes-2                   : ok=66   changed=2    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0   
+hejoes-1                   : ok=67   changed=0    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0   
+hejoes-2                   : ok=66   changed=0    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0   
 hejoes-3                   : ok=63   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 
 + ansible all -b -m reboot -a test_command=uptime
 hejoes-3 | CHANGED => {
     "changed": true,
-    "elapsed": 41,
+    "elapsed": 37,
     "rebooted": true
 }
 hejoes-1 | CHANGED => {
     "changed": true,
-    "elapsed": 48,
+    "elapsed": 47,
     "rebooted": true
 }
 hejoes-2 | CHANGED => {
     "changed": true,
-    "elapsed": 50,
+    "elapsed": 47,
     "rebooted": true
 }
 + ansible-playbook infra.yaml --diff
@@ -8164,9 +8164,9 @@ hejoes-2 | CHANGED => {
 PLAY [Init] ********************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [hejoes-2]
 ok: [hejoes-1]
 ok: [hejoes-3]
+ok: [hejoes-2]
 
 TASK [init : Update cache] *****************************************************
 ok: [hejoes-3]
@@ -8174,8 +8174,8 @@ ok: [hejoes-1]
 ok: [hejoes-2]
 
 TASK [init : Update CA certificates] *******************************************
-ok: [hejoes-3]
 ok: [hejoes-1]
+ok: [hejoes-3]
 ok: [hejoes-2]
 
 PLAY [Run rsyslog task on all hosts] *******************************************
@@ -8188,81 +8188,81 @@ ok: [hejoes-2]
 PLAY [Node Exporter for main monitoring] ***************************************
 
 TASK [node_exporter : Install node exporter] ***********************************
-ok: [hejoes-3]
 ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-3]
 
 TASK [node_exporter : Start and enable node exporter] **************************
 ok: [hejoes-3]
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 PLAY [Backup] ******************************************************************
 
 TASK [backup : Create .ssh directory] ******************************************
+ok: [hejoes-1]
 ok: [hejoes-2]
 ok: [hejoes-3]
-ok: [hejoes-1]
 
 TASK [backup : Create backup user] *********************************************
 ok: [hejoes-1]
-ok: [hejoes-2]
 ok: [hejoes-3]
+ok: [hejoes-2]
 
 TASK [backup : Change /home/backup folder permissions] *************************
-ok: [hejoes-3] => (item=/home/backup)
 ok: [hejoes-1] => (item=/home/backup)
 ok: [hejoes-2] => (item=/home/backup)
-ok: [hejoes-3] => (item=/home/backup/.ssh)
+ok: [hejoes-3] => (item=/home/backup)
 ok: [hejoes-2] => (item=/home/backup/.ssh)
 ok: [hejoes-1] => (item=/home/backup/.ssh)
+ok: [hejoes-3] => (item=/home/backup/.ssh)
 
 TASK [backup : Copy known hosts file] ******************************************
-ok: [hejoes-2]
 ok: [hejoes-3]
+ok: [hejoes-2]
 ok: [hejoes-1]
 
 TASK [backup : Create restore directories] *************************************
 ok: [hejoes-1] => (item=mysql)
-ok: [hejoes-3] => (item=mysql)
 ok: [hejoes-2] => (item=mysql)
+ok: [hejoes-3] => (item=mysql)
 ok: [hejoes-1] => (item=influxdb)
 ok: [hejoes-3] => (item=influxdb)
 ok: [hejoes-2] => (item=influxdb)
 
 TASK [backup : Install duplicity] **********************************************
-ok: [hejoes-3]
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
+ok: [hejoes-3]
 
 PLAY [Docker for all machines] *************************************************
 
 TASK [docker : Install docker] *************************************************
+ok: [hejoes-1]
 ok: [hejoes-3]
 ok: [hejoes-2]
-ok: [hejoes-1]
 
 TASK [docker : Start and enable docker] ****************************************
-ok: [hejoes-2]
-ok: [hejoes-3]
 ok: [hejoes-1]
+ok: [hejoes-3]
+ok: [hejoes-2]
 
 PLAY [Bind9 for all machines] **************************************************
 
 TASK [bind : Install bind9] ****************************************************
-ok: [hejoes-3]
 ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-3]
 
 TASK [bind : Instaöö dnspython] ************************************************
-ok: [hejoes-3]
 ok: [hejoes-2]
+ok: [hejoes-3]
 ok: [hejoes-1]
 
 TASK [bind : Copy over named.conf.options] *************************************
+ok: [hejoes-1]
 ok: [hejoes-3]
 ok: [hejoes-2]
-ok: [hejoes-1]
 
 TASK [bind : Copy over named.local] ********************************************
 ok: [hejoes-3]
@@ -8312,16 +8312,16 @@ skipping: [hejoes-1] => (item=None)
 skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-1] => (item=None) 
 skipping: [hejoes-2] => (item=None) 
-skipping: [hejoes-1] => (item=None) 
 skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-1] => (item=None) 
 skipping: [hejoes-2] => (item=None) 
+skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-1] => (item=None) 
 skipping: [hejoes-2] => (item=None) 
-skipping: [hejoes-1]
-skipping: [hejoes-2] => (item=None) 
+skipping: [hejoes-1] => (item=None) 
 skipping: [hejoes-2] => (item=None) 
 skipping: [hejoes-2]
+skipping: [hejoes-1]
 ok: [hejoes-3] => (item=None)
 ok: [hejoes-3] => (item=None)
 ok: [hejoes-3] => (item=None)
@@ -8335,13 +8335,13 @@ ok: [hejoes-3] => (item=None)
 ok: [hejoes-3]
 
 TASK [bind_exporter : Install bind9 exporter] **********************************
+ok: [hejoes-2]
 ok: [hejoes-3]
 ok: [hejoes-1]
-ok: [hejoes-2]
 
 TASK [bind_exporter : Start and enable bind9 exporter] *************************
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
 ok: [hejoes-3]
 
 PLAY [MySQL] *******************************************************************
@@ -8351,28 +8351,28 @@ ok: [hejoes-1]
 ok: [hejoes-2]
 
 TASK [mysql : Install pymysql] *************************************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [mysql : Change MySQL config] *********************************************
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
 
 TASK [mysql : Start the MySQL service and enable it] ***************************
 ok: [hejoes-1]
 ok: [hejoes-2]
 
 TASK [mysql : MySQL database] **************************************************
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
 
 TASK [mysql : MySQL user - agama] **********************************************
 ok: [hejoes-2]
 ok: [hejoes-1]
 
 TASK [mysql : MySQL replication user] ******************************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [mysql : MySQL replica read only] *****************************************
 ok: [hejoes-1]
@@ -8383,8 +8383,8 @@ ok: [hejoes-1]
 ok: [hejoes-2]
 
 TASK [mysql_exporter : MySQL user for mysql exporter] **************************
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
 
 TASK [mysql_exporter : Change mysql config] ************************************
 ok: [hejoes-1]
@@ -8396,8 +8396,8 @@ Pausing for 10 seconds
 ok: [hejoes-1]
 
 TASK [mysql_exporter : Copy prometheus-mysqld-exporter file] *******************
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
 
 TASK [mysql_exporter : Start and enable mysql exporter] ************************
 ok: [hejoes-1]
@@ -8408,12 +8408,12 @@ ok: [hejoes-1]
 ok: [hejoes-2]
 
 TASK [mysql_backup : MySQL user for backup] ************************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [mysql_backup : Change my.cnf mysql config] *******************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [mysql_backup : Copy mysql backup crontab file] ***************************
 ok: [hejoes-1]
@@ -8422,8 +8422,8 @@ ok: [hejoes-2]
 PLAY [Nginx at App Stack] ******************************************************
 
 TASK [nginx : Install nginx] ***************************************************
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
 
 TASK [nginx : Change nginx main page] ******************************************
 ok: [hejoes-2]
@@ -8434,8 +8434,8 @@ ok: [hejoes-1]
 ok: [hejoes-2]
 
 TASK [nginx : Start and enable nginx (always needed)] **************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [nginx_exporter : Install nginx exporter] *********************************
 ok: [hejoes-1]
@@ -8460,26 +8460,26 @@ ok: [hejoes-2]
 ok: [hejoes-1]
 
 TASK [agama : Get agama] *******************************************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [agama : Build docker image from Dockerfile] ******************************
 ok: [hejoes-2]
 ok: [hejoes-1]
 
 TASK [agama : Start the container from built image] ****************************
-changed: [hejoes-1]
-changed: [hejoes-2]
+ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [agama : Start 2nd agama container(for haproxy)] **************************
-changed: [hejoes-2]
-changed: [hejoes-1]
+ok: [hejoes-1]
+ok: [hejoes-2]
 
 PLAY [Keepallived] *************************************************************
 
 TASK [keepalived : Install keepalived] *****************************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [keepalived : Add user "keepalived_script"] *******************************
 ok: [hejoes-1]
@@ -8498,12 +8498,12 @@ ok: [hejoes-1]
 ok: [hejoes-2]
 
 TASK [keepalived_exporter : Copy keepalived exporter binary] *******************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [keepalived_exporter : Copy keepalived exporter service file] *************
-ok: [hejoes-1]
 ok: [hejoes-2]
+ok: [hejoes-1]
 
 TASK [keepalived_exporter : Start and enable keepalived exporter] **************
 ok: [hejoes-1]
@@ -8516,24 +8516,24 @@ ok: [hejoes-2]
 ok: [hejoes-1]
 
 TASK [haproxy : Configure haproxy] *********************************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [haproxy : Start hapxory] *************************************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [haproxy_exporter : Install haproxy exporter] *****************************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [haproxy_exporter : Change haproxy exporter config] ***********************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 TASK [haproxy_exporter : Start and enable haproxy exporter] ********************
-ok: [hejoes-2]
 ok: [hejoes-1]
+ok: [hejoes-2]
 
 PLAY [nginx as frontend for grafana and prometheus] ****************************
 
@@ -8661,9 +8661,9 @@ TASK [influxdb_backup : Copy crontab file] *************************************
 ok: [hejoes-3]
 
 PLAY RECAP *********************************************************************
-hejoes-1                   : ok=67   changed=2    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0   
-hejoes-2                   : ok=66   changed=2    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0   
+hejoes-1                   : ok=67   changed=0    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0   
+hejoes-2                   : ok=66   changed=0    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0   
 hejoes-3                   : ok=63   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 
 + date
-Tue Dec  6 03:16:56 PM EET 2022
+Mon Dec 12 03:14:28 PM EET 2022

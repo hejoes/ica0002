@@ -1,4 +1,4 @@
-{% if inventory_hostname == mysql_backup_host %}
+{% if hostvars[inventory_hostname]['ansible_default_ipv4']['address'] != mysql_host %}
 0 20 * * * backup mysqldump agama > /home/backup/mysql/agama.sql
 
 10 20 * * 6 backup  duplicity --no-encryption full /home/backup/mysql/ rsync://{{ github_username }}@backup.{{ domain }}/mysql

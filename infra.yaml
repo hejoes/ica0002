@@ -90,7 +90,6 @@
 # **** Other Parts, for hejoes-3 as int server ****
 
 - name: nginx as frontend for grafana and prometheus
-  #DID NOT WORK, CHECK IF 3NGINX UP ON GRAFANA!!!!!!!!!!!!!!!!!!!!!!!!!!1
   become: yes
   hosts: nginx
   roles:

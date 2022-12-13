@@ -27,7 +27,7 @@ Login as root user: `sudo su`
 
   1.  `service telegraf stop`
   2.  `influx -execute 'DROP DATABASE telegraf'`
-  3.  `sudo -u backup duplicity --no-encryption restore rsync://hejoes@backup.nexify.it/home/hejoes/influxdb/ /home/backup/restore/influxdb/`
+  3.  `sudo -u backup duplicity --no-encryption restore rsync://hejoes@backup.nexify.it//home/hejoes/influxdb/ /home/backup/restore/influxdb/`
   4.  `influxd restore -portable /home/backup/restore/influxdb/`
   5.  `service telegraf start`
 

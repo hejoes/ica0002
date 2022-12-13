@@ -32,6 +32,10 @@
     dest: /etc/telegraf/telegraf.conf
   notify: Restart telegraf
 
+- name: Pause for 10 seconds
+  pause:
+    seconds: 10
+
 - name: Start and enable telegraf
   service:
     name: telegraf

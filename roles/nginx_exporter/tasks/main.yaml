@@ -2,15 +2,8 @@
   apt:
     name: prometheus-nginx-exporter
 
-- name: Change nginx config for exporter
-  template:
-    src: exporter
-    dest: /etc/nginx/sites-enabled/exporter
-  notify:
-    - Restart nginx exporter
-
 - name: Start and enable nginx exporter
-  ansible.builtin.service:
+  service:
     name: prometheus-nginx-exporter
     state: started
     enabled: yes

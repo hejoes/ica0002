@@ -1,8 +1,3 @@
-global_defs {
-    enable_script_security
-    script_user keepalived_script
-}
-
 vrrp_script check_haproxy {                 
     script "/home/keepalived_script/vrrp_script" 
     weight 20                              
@@ -17,8 +12,12 @@ vrrp_instance nexify {
     priority 5
     {% endif %}
     advert_int 1                            
-    virtual_ipaddress {                     
-        192.168.100.{{ hostvars['hejoes-1']['ansible_default_ipv4']['address'].split('.')[-1] }}/24                     
+    virtual_ipaddress {
+        {% if hostvars['hejoes-2']['ansible_default_ipv4']['address'].split('.')[2] == '43' %}
+        192.168.101.{{ hostvars['hejoes-1']['ansible_default_ipv4']['address'].split('.')[-1]  }}/24
+        {% else %}
+        192.168.100.{{ hostvars['hejoes-1']['ansible_default_ipv4']['address'].split('.')[-1]  }}/24
+        {% endif %}                        
     }
     unicast_peer {                          
         {% for vm in groups['app_stack'] %}                    

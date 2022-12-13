@@ -15,6 +15,11 @@
   notify:
     - restart keepalived
 
+- name: Create directory /home/keepalived_script
+  file:
+    path: /home/keepalived_script
+    state: directory
+
 - name: Copy keepalived script file
   copy:
     src: vrrp_script.sh

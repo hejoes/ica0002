@@ -23,7 +23,7 @@ server {
 
 	{% if inventory_hostname in groups['app_stack'] %}
 	location / {
-		proxy_pass http://localhost:{{ haproxy_http_port }};
+		proxy_pass http://localhost:{{ agama_ports[0] }};
 		proxy_set_header Host $http_host;
 	}
 

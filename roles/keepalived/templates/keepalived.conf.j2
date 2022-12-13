@@ -1,28 +1,33 @@
-vrrp_script check_haproxy {                 
-    script "/home/keepalived_script/vrrp_script" 
-    weight 20                              
-    interval 1               
+global_defs {
+    enable_script_security
+    script_user keepalived_script
 }
-vrrp_instance nexify {             
+
+vrrp_script check_haproxy {
+    script "/home/keepalived_script/keepalived_script"
+    weight 20
+    interval 1
+}
+vrrp_instance VIP {
     interface ens3
     virtual_router_id 1
-    {% if inventory_hostname == 'hejoes-1' %}
+    {% if inventory_hostname == "hejoes-2" %}
     priority 100
     {% else %}
-    priority 5
+    priority 99
     {% endif %}
-    advert_int 1                            
+    advert_int 1
     virtual_ipaddress {
-        {% if hostvars['hejoes-2']['ansible_default_ipv4']['address'].split('.')[2] == '43' %}
-        192.168.101.{{ hostvars['hejoes-1']['ansible_default_ipv4']['address'].split('.')[-1]  }}/24
+        {% if ((hostvars["hejoes-1"]["ansible_default_ipv4"]["address"] | split("."))[2]) == '43' %}
+        192.168.101.{{ (hostvars["hejoes-2"]["ansible_default_ipv4"]["address"] | split("."))[3]  }}/24
         {% else %}
-        192.168.100.{{ hostvars['hejoes-1']['ansible_default_ipv4']['address'].split('.')[-1]  }}/24
-        {% endif %}                        
+        192.168.100.{{ (hostvars["hejoes-2"]["ansible_default_ipv4"]["address"] | split("."))[3]  }}/24
+        {% endif %}
     }
-    unicast_peer {                          
-        {% for vm in groups['app_stack'] %}                    
+    unicast_peer {
+        {% for vm in groups["agama"] %}
         {% if inventory_hostname != vm %}
-        {{ hostvars[vm]['ansible_default_ipv4']['address'] }}
+        {{  hostvars[vm]['ansible_default_ipv4']['address'] }}
         {% endif %}
         {% endfor %}
     }

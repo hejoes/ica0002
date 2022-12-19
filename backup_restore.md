@@ -1,4 +1,4 @@
-# Restore Mysql or InfluxDB:
+# Restore Mysqll or InfluxDB:
 
 ## Install and configure infrastructure with Ansible:
 

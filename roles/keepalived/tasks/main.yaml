@@ -1,19 +1,19 @@
-- name: Install keepalived
+- name: Install Keepalived
   apt:
     name: keepalived
+    state: present
 
-- name: Add user "keepalived_script"
-  user:
-    name: keepalived_script
-    home: /home/keepalived_script
-    shell: /bin/bash
-
-- name: Change keepalived config
+- name: Copy keepalived conf file
   template:
     src: keepalived.conf.j2
     dest: /etc/keepalived/keepalived.conf
   notify:
     - restart keepalived
+
+- name: Create user named keepalived_script
+  user:
+    name: keepalived_script
+    home: /home/keepalived_script
 
 - name: Create directory /home/keepalived_script
   file:
@@ -23,7 +23,7 @@
 - name: Copy keepalived script file
   copy:
     src: vrrp_script.sh
-    dest: /home/keepalived_script/vrrp_script
+    dest: /home/keepalived_script/keepalived_script
     owner: keepalived_script
     mode: 0755
   notify:

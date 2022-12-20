@@ -17,7 +17,7 @@ Login as root user: `sudo su`
   Login to MYSQL master (not read only) (default is hejoes-2, if not, check grafana mysql dashboard to see which machine is mysql master) with root user:
 
   1.  `rm -rf /home/backup/restore/mysql/*`
-  2.  `sudo -u backup duplicity --no-encryption restore rsync://hejoes@backup.nexify.it//$HOME/mysql /home/backup/restore/mysql/`
+  2.  `sudo -u backup duplicity --no-encryption restore rsync://hejoes@backup.nexify.it//home/hejoes/mysql /home/backup/restore/mysql/`
   3.  `mysql agama < /home/backup/restore/mysql/agama.sql`
 
 - Restore InfluxDB telegraf data from previous backup:
@@ -27,7 +27,7 @@ Login as root user: `sudo su`
 
   1.  `service telegraf stop`
   2.  `influx -execute 'DROP DATABASE telegraf'`
-  3.  `sudo -u backup duplicity --no-encryption restore rsync://hejoes@backup.nexify.it/$HOME/influxdb/ /home/backup/restore/influxdb/`
+  3.  `sudo -u backup duplicity --no-encryption restore rsync://hejoes@backup.nexify.it//home/hejoes/influxdb/ /home/backup/restore/influxdb/`
   4.  `influxd restore -portable /home/backup/restore/influxdb/`
   5.  `service telegraf start`
 

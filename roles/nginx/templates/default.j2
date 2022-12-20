@@ -33,17 +33,10 @@ server {
 		proxy_pass http://localhost:9165/metrics;
 	}
 	{% endif %}
-
-	{% if inventory_hostname in groups['all'] %}
-	location = /stub_status {
-		stub_status;
-	}
-	{% endif %}
 }
-
-server { 
-	listen 8080 default server;
-		location = /stub_status {
+server {
+	listen 8080 default_server;
+	location = /stub_status {
 		stub_status;
 	}
 }

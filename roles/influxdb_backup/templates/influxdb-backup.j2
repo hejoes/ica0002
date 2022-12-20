@@ -1,3 +1,3 @@
-9,10 17 * * * backup rm -rf /home/backup/influxdb/*; influxd backup -portable -database telegraf /home/backup/influxdb/
-10 17 * * 0 backup duplicity --no-encryption full /home/backup/influxdb/ rsync://{{ github_username }}@backup.{{ domain }}/influxdb/
-11 17 * * * backup duplicity --no-encryption incremental /home/backup/influxdb/ rsync://{{ github_username }}@backup.{{ domain }}/influxdb/
+17,18 17 * * * backup rm -rf /home/backup/influxdb/*; influxd backup -portable -database telegraf /home/backup/influxdb/
+18 17 * * * backup duplicity --no-encryption full /home/backup/influxdb/ rsync://{{ github_username }}@backup.{{ domain }}//home/{{ github_username }}/influxdb/
+19 17 * * * backup duplicity --no-encryption incremental /home/backup/influxdb/ rsync://{{ github_username }}@backup.{{ domain }}//home/{{ github_username }}/influxdb/

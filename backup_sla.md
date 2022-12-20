@@ -6,7 +6,7 @@ This backup is meant to cover MySQL (located on hejoes-1 and hejoes-2) and Influ
 
 ## RPO
 
-Backups are made automatically every day at 20:00-20:30(20:00-20:15 MySQL, 20:15-20:30 InfluxDB)UTC(server time). Acceptable data loss: 1hour in 30days. Reqoveries and their verification are responsibility of an sysadmin.
+Backups are made automatically every day at 20:00-20:15 for MySQL and 20:15-21:20 InfluxDB (20:20 full, 21.20 incremental) UTC(server time). Acceptable data loss: 1hour in 30days. Reqoveries and their verification are responsibility of an sysadmin.
 
 ## Retention and versioning
 

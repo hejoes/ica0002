@@ -1,6 +1,5 @@
 server {
 	listen 80 default_server;
-	listen 8080;
 	root /var/www/html;
 	index index.html index.html;
 	server_name _;
@@ -40,4 +39,11 @@ server {
 		stub_status;
 	}
 	{% endif %}
+}
+
+server { 
+	listen 8080 default server;
+		location = /stub_status {
+		stub_status;
+	}
 }

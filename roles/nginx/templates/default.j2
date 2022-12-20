@@ -7,7 +7,6 @@ server {
 	large_client_header_buffers 4 16k;
 	error_page 404 /;
 
-
 	{% if inventory_hostname in groups['prometheus'] %}
 	location /prometheus {
 		proxy_pass http://localhost:9090;
@@ -36,9 +35,7 @@ server {
 	}
 	{% endif %}
 
-	{% if inventory_hostname in groups['all'] %}
 	location = /stub_status {
 		stub_status;
 	}
-	{% endif %}
 }

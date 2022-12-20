@@ -21,7 +21,7 @@ Login as root user: `sudo su`
   3.  `mysql agama < /home/backup/restore/mysql/agama.sql`
 
 - Restore InfluxDB telegraf data from previous backup:
-  Login to server where InfludDB is located (hejoes-3). If service telegraf stop gives service not found go to hosts file and find [influx], there you see machine where influxdb is located and do the following tasks on that machine.
+  Login to server where InfludDB is located (hejoes-3)
 
   Change to user root and type:
 

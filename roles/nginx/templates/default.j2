@@ -1,6 +1,5 @@
 server {
 	listen 80 default_server;
-	listen 8080;
 	root /var/www/html;
 	index index.html index.html;
 	server_name _;
@@ -34,8 +33,18 @@ server {
 		proxy_pass http://localhost:9165/metrics;
 	}
 	{% endif %}
+<<<<<<< HEAD
 
 	location = /stub_status {
 		stub_status;
 	}
 }
+=======
+}
+server {
+	listen 8080 default_server;
+	location = /stub_status {
+		stub_status;
+	}
+}
+>>>>>>> d28975788ecea31119a9af0d875ec1951ce3d703

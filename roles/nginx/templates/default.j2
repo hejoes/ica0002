@@ -33,18 +33,15 @@ server {
 		proxy_pass http://localhost:9165/metrics;
 	}
 	{% endif %}
-<<<<<<< HEAD
+}
 
-	location = /stub_status {
-		stub_status;
-	}
-}
-=======
-}
 server {
 	listen 8080 default_server;
+	server_name _;
+
+	{% if inventory_hostname in groups['all'] %}
 	location = /stub_status {
 		stub_status;
 	}
+	{% endif %}
 }
->>>>>>> d28975788ecea31119a9af0d875ec1951ce3d703
